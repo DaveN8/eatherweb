@@ -11,19 +11,19 @@
         <div class="container px-5">
             <div class="row gx-5 align-items-center">
                 <div class="col-lg-6">
+
                     <!-- Mashead text and app badges-->
                     <div class="mb-5 mb-lg-0 text-center text-lg-start">
-                        <h1 class="display-1 lh-1 mb-3">Eather merupakan sebuah</h1>
-                        <p class="lead fw-normal text-muted mb-5">Launch your mobile app landing page faster with this free,
-                            open source theme from Start Bootstrap!</p>
-                        <div class="d-flex flex-column flex-lg-row align-items-center">
-                            <a href="" type="button" class="btn btn-info">Enter Product</a>
+                        <h5 class="display-3 lh-1 mb-3">Eather, Teman untuk Nyemil</h5>
+                        <p class="lead fw-normal text-muted mb-3">Eather merupakan sebuah makanan ringan yang renyah dan enak</p>
+                        <div class="d-flex flex-column flex-lg-row align-items-center mb-5">
+                            <a href="" type="button" class="btn btn-outline-info">Enter Product</a>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6">
+                {{-- <div class="col-lg-6">
                     
-                </div>
+                </div> --}}
             </div>
         </div>
     </header>
