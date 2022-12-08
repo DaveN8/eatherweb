@@ -9,7 +9,7 @@
 <body>
     @include('components.navbar')
 
-    <div class="container mt-5">
+    <div class="mt-5">
 
         @yield('main_content')
 
