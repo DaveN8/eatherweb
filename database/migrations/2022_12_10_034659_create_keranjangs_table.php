@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Products;
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,6 +17,11 @@ return new class extends Migration
     {
         Schema::create('keranjangs', function (Blueprint $table) {
             $table->id();
+            $table->integer("jumlah_product");
+            $table->text("catatan")->nullable();
+            $table->enum("status", ["show", "hide"])->default("show");
+            $table->foreignIdFor(User::class)->references("id")->on("users");
+            $table->foreignIdFor(Products::class)->references("id")->on("products");
             $table->timestamps();
         });
     }

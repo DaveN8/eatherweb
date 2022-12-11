@@ -5,7 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class histori extends Model
+class Histori extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        "status_payment",
+        "order_status",
+        "bukti_trf"
+    ];
 }
