@@ -26,6 +26,7 @@ class AlamatController extends Controller
     public function create()
     {
         //
+        
     }
 
     /**
