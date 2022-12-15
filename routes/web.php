@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Models\aboutus;
+use App\Models\Aboutus;
 use Illuminate\support\facades\Route;
 
 /*
@@ -54,7 +54,7 @@ Route::get('/product', function () {
 Route::get('/about', function () {
     return view('about', [
         'pagetitle' => 'About us',
-        'aboutus' => aboutus::allData()
+        'aboutus' => Aboutus::allData()
     ]);
 });
 
