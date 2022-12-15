@@ -1,8 +1,3 @@
-@extends('layouts.app')
-
-@section('main_content')
-
-    
 <footer class="p-4 bg-white sm:p-6 dark:bg-gray-900">
         <div class="md:flex md:justify-between">
             <div class="mb-6 md:mb-0">
@@ -75,6 +70,3 @@
             </div>
         </div>
 </footer>
-
-    
-@endsection
