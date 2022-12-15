@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class aboutus extends Model
+class Aboutus extends Model
 {
     use HasFactory;
 
@@ -17,30 +17,35 @@ class aboutus extends Model
 
     public static $aboutus = [
         [
+            'id' => 1,
             'anggota' => 'Handika Frediansyah',
             'position' => 'CEO',
             'lbanggota' => 'Pemimpin tampan satu ini lahir di mojokerto pada tahun 2003, selain kuliah handhika juga mempunyai banyak pengalaman di bidang bisnis, dia terkenal sangat bertanggung jawab dan sangat tekun dalam berbisnis. ',
             'ftanggota' => 'handhika.jpg',
         ],
         [
+            'id' => 2,
             'anggota' => 'Daffa Nushshar Aditya',
             'position' => 'CFO',
             'lbanggota' => 'Remaja asal malang yang memiliki kesibukan nongkrong dan kuliah secara rutin, dan memiliki motto hidup "You can change what you do, but you cant change what you want"',
             'ftanggota' => 'daffa.jpg',
         ],
         [
+            'id' => 3,
             'anggota' => 'Achmad Tegar',
             'position' => 'COO',
             'lbanggota' => 'Sosok Remaja ini berasal dari lamongan yang memiliki background keluarga yang sangat unik, ia memiliki hobby yang sangat unik yaitu memancing ikan bahkan memancing keributan. motto hidup dari remaja satu ini adalah "Jika Matahari Terbit Dari Timur, Maka Bulan Pun Malu" ',
             'ftanggota' => 'tegar.jpg',
         ],
         [
+            'id' => 4,
             'anggota' => 'Chrisantus Justin Valdano',
             'position' => 'CMO',
             'lbanggota' => 'Remaja kelahiran kupang ini memiliki kesibukan yang sangat sibuk yaitu kuliah,gym, dan bermain game. Motto hidupnya "fight even though you are in trouble and give the best of yourself until you feel it"',
             'ftanggota' => 'chris.jpg',
         ],
         [
+            'id' => 5,
             'anggota' => 'Michael Yap',
             'position' => 'CTO',
             'lbanggota' => 'Makhluk satu ini lahir di malang pada tahun 2003. Dia memiliki kesibukan membuat content tiktok/instagram, tentunya dia sangat sibuk di dunia perkuliahan',
