@@ -1,4 +1,4 @@
-@extends('layout.main_layout')
+@extends('layouts.app')
 
 @section('main_content')
     {{-- <h1>This is Home Page

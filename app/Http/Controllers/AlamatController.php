@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\alamat;
 use App\Http\Requests\StorealamatRequest;
 use App\Http\Requests\UpdatealamatRequest;
+use App\Models\User;
 
 class AlamatController extends Controller
 {
@@ -26,7 +27,10 @@ class AlamatController extends Controller
     public function create()
     {
         //
-        
+        return view('/create/cr_alamat',[
+            'pagetitle' => 'Create Alamat',
+            'user' => ""
+        ]);
     }
 
     /**

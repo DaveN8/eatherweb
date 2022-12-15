@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Models\aboutus;
 use Illuminate\support\facades\Route;
 
 /*
@@ -51,7 +52,10 @@ Route::get('/product', function () {
 });
 
 Route::get('/about', function () {
-    return view('about');
+    return view('about', [
+        'pagetitle' => 'About us',
+        'aboutus' => aboutus::allData()
+    ]);
 });
 
 // Route::get('/cralamat', function () {
