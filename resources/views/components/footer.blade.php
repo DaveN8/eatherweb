@@ -40,7 +40,7 @@
                         <a href="#" class="hover:underline">Privacy Policy</a>
                     </li>
                     <li>
-                        <a href="#" class="hover:underline">Terms &amp; Conditions</a>
+                        <a href="#" class="hover:underline">Terms & Conditions</a>
                     </li>
                 </ul>
             </div>
