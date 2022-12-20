@@ -1,7 +1,15 @@
 <?php
 
+use App\Http\Controllers\ProductIngredientController;
+use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Aboutus;
+use App\Models\Flavours;
+use App\Models\Ingredients;
+use App\Models\Kategori;
+use App\Models\Product_ingredient;
+use App\Models\Products;
+use App\Models\User;
 use Illuminate\support\facades\Route;
 
 /*
@@ -15,17 +23,8 @@ use Illuminate\support\facades\Route;
 |
 */
 //Product ---------------------------
-Route::get('/original', function () {
-    return view('original');
-});
-
-Route::get('/pedas', function () {
-    return view('pedas');
-});
-
-
-Route::get('/panggang', function () {
-    return view('panggang');
+Route::get('/detail', function () {
+    return view('detail');
 });
 //------------------------------------
 
@@ -48,7 +47,11 @@ Route::get('/', function () {
 });
 
 Route::get('/product', function () {
-    return view('product');
+    return view('product', [
+        'pagetitle' => 'Products Page',
+        'products' => Products::all(),
+        'categorie' => Kategori::all()
+    ]);
 });
 
 Route::get('/about', function () {
@@ -58,9 +61,26 @@ Route::get('/about', function () {
     ]);
 });
 
+// Route::get('/createp', [ProductsController::class, 'create']); //pindadh untuk ke add product form
+// Route::get('/addproduct', [ProductsController::class, 'store']);
+
+
+// Route::get('/crproduct', function () {
+//     return view('create/cr_product', [
+//         'pagetitle' => 'Create Products',
+//         'products' => Products::all(),
+//         'flavours' => Flavours::all(),
+//         'categories' => Kategori::all(),
+//         'proing' => Product_ingredient::all()
+//     ]);
+// });
+
 // Route::get('/cralamat', function () {
 //     return view('/create/cr_alamat');
 // });
+
+Route::resource('products', ProductsController::class)->middleware("admin");
+Route::resource('product_ingredients', ProductIngredientController::class)->middleware('admin');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

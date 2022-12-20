@@ -37,6 +37,19 @@ class ProductIngredientController extends Controller
     public function store(Storeproduct_ingredientRequest $request)
     {
         //
+
+        $this->validate($request, [
+            'products_id' => 'required',
+            'ingredients_id' => 'required'
+        ]);
+
+        product_ingredient::create([
+            'products_id' => $request->products_id,
+            'ingredients_id' => $request->ingredients_id,
+        ]);
+
+        return redirect('/product');
+
     }
 
     /**
@@ -48,6 +61,8 @@ class ProductIngredientController extends Controller
     public function show(product_ingredient $product_ingredient)
     {
         //
+
+
     }
 
     /**
