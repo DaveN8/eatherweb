@@ -28,7 +28,7 @@ class AlamatController extends Controller
     {
         //
         return view('/create/cr_alamat',[
-            'pagetitle' => 'Create Alamat',
+            'pagetitle' => 'Create alamat',
             'user' => ""
         ]);
     }

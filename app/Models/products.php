@@ -15,6 +15,8 @@ class Products extends Model
         "stock",
         "price",
         "description",
+        "flavours_id",
+        "kategori_id",
         "status"
     ];
 }
