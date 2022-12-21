@@ -4,12 +4,17 @@ use App\Http\Controllers\ProductIngredientController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Aboutus;
+use App\Models\Alamat;
 use App\Models\Flavours;
+use App\Models\Histori;
 use App\Models\Ingredients;
 use App\Models\Kategori;
+use App\Models\Keranjang;
 use App\Models\Product_ingredient;
 use App\Models\Products;
+use App\Models\Reviews;
 use App\Models\User;
+use App\Models\Wishlists;
 use Illuminate\support\facades\Route;
 
 /*
@@ -79,8 +84,16 @@ Route::get('/about', function () {
 //     return view('/create/cr_alamat');
 // });
 
+Route::resource('alamat', Alamat::class);
 Route::resource('products', ProductsController::class)->middleware("admin");
 Route::resource('product_ingredients', ProductIngredientController::class)->middleware('admin');
+Route::resource('ingredients', Ingredients::class)->middleware('admin');
+Route::resource('category', Kategori::class)->middleware('admin');
+Route::resource('flavours', Flavours::class)->middleware('admin');
+Route::resource('histori', Histori::class);
+Route::resource('keranjang', Keranjang::class);
+Route::resource('review', Reviews::class);
+Route::resource('wishlist', Wishlists::class);
 
 Route::get('/dashboard', function () {
     return view('dashboard');

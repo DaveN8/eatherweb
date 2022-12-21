@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\product_ingredient;
 use App\Http\Requests\Storeproduct_ingredientRequest;
 use App\Http\Requests\Updateproduct_ingredientRequest;
+use App\Models\Ingredients;
+use App\Models\Products;
 
 class ProductIngredientController extends Controller
 {
@@ -26,6 +28,13 @@ class ProductIngredientController extends Controller
     public function create()
     {
         //
+
+        return view('create/cr_product2',[
+            'products' => Products::latest()->first(),
+            'ingredients' => Ingredients::all(),
+            'proings' => product_ingredient::all()
+            // ->where('products_id', equalTo(Products::latest()->first()))
+        ]);
     }
 
     /**
@@ -48,7 +57,7 @@ class ProductIngredientController extends Controller
             'ingredients_id' => $request->ingredients_id,
         ]);
 
-        return redirect('/product');
+        return redirect(route('product_ingredients.create'));
 
     }
 

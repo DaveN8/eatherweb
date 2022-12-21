@@ -9,8 +9,6 @@ use App\Models\Flavours;
 use App\Models\Ingredients;
 use App\Models\Kategori;
 use App\Models\Product_ingredient;
-use Illuminate\Support\Facades\DB;
-use PhpParser\Node\Stmt\Return_;
 
 class ProductsController extends Controller
 {
@@ -74,7 +72,7 @@ class ProductsController extends Controller
         // $id = DB::table('products');
         // $lastid;
 
-        return redirect('/product');
+        return redirect(route('product_ingredients.create'));
         // return redirect('/product');
     }
 
@@ -95,9 +93,14 @@ class ProductsController extends Controller
      * @param  \App\Models\products  $products
      * @return \Illuminate\Http\Response
      */
-    public function edit(products $products)
+    public function edit($id)
     {
         //
+        return view('update/up_product',[
+            'products' => products::findorFail($id),
+            'proings' => Product_ingredient::findorFail(products::findorFail($id)),
+            'ingredients' => Ingredients::all()
+        ]);
     }
 
     /**
@@ -107,9 +110,28 @@ class ProductsController extends Controller
      * @param  \App\Models\products  $products
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateproductsRequest $request, products $products)
+    public function update(UpdateproductsRequest $request, $id)
     {
         //
+        $product = products::findorFail($id);
+
+        if($request->file('coverphoto')){
+            unlink('images/'.$product->);
+            $product->update([
+                'name' => $request->title,
+                '' => $request->synopsis,
+                'coverphoto' => $request->file('coverphoto')->store('coverphotos', 'public')
+            ]);
+
+        }else{
+            $book->update([
+                'title' => $request->title,
+                'synopsis' => $request->synopsis,
+            ]);   
+        }
+
+        return redirect('/index');
+
     }
 
     /**
