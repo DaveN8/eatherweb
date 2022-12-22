@@ -14,13 +14,17 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://unpkg.com/flowbite@1.5.5/dist/flowbite.min.css" />
 
+    <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/styles/tailwind.css">
+    <link rel="stylesheet"
+        href="https://demos.creative-tim.com/notus-js/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css">
+
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body class="font-sans antialiased">
+    @include('layouts.navigation')
     <div class="min-h-screen bg-gray-100">
-        @include('layouts.navigation')
 
         {{-- <!-- Page Heading -->
             @if (isset($header))
@@ -31,7 +35,7 @@
                 </header>
             @endif --}}
 
-        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto py-2 px-4 sm:px-6 lg:px-8">
             @yield('main_content')
         </div>
 
@@ -39,8 +43,9 @@
             <main>
                 {{ $slot }}
             </main> --}}
-            @include('components.footer')
+
     </div>
+    @include('components.footer')
 
 
     {{-- @include('components.navbar')

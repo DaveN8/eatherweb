@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\products;
 use App\Http\Requests\StoreproductsRequest;
 use App\Http\Requests\UpdateproductsRequest;
+use App\Models\Flavours;
+use App\Models\Ingredients;
+use App\Models\Kategori;
+use App\Models\Product_ingredient;
 
 class ProductsController extends Controller
 {
@@ -26,6 +30,15 @@ class ProductsController extends Controller
     public function create()
     {
         //
+        
+            return view('create/cr_product', [
+                'pagetitle' => 'Create Products',
+                'products' => Products::all(),
+                'flavours' => Flavours::all(),
+                'categories' => Kategori::all(),
+                'proing' => Product_ingredient::all()
+            ]);
+        
     }
 
     /**
@@ -37,6 +50,30 @@ class ProductsController extends Controller
     public function store(StoreproductsRequest $request)
     {
         //
+        $this->validate($request, [
+            'name' => 'required',
+            'image' => 'required',
+            'stock' => 'required',
+            'price' => 'required',
+            'description' => 'required',
+        ]);
+
+        products::create([
+            'name' => $request->name,
+            'image' => $request->file('image')->store('images', 'public'),
+            'stock' => $request->stock,
+            'price' => $request->price,
+            'description' => $request->description,
+            'flavours_id' => $request->flavour,
+            'kategori_id' => $request->category
+        ]);
+
+        // $lastid = DB::getPdo()->lastInsertId();
+        // $id = DB::table('products');
+        // $lastid;
+
+        return redirect(route('product_ingredients.create'));
+        // return redirect('/product');
     }
 
     /**
@@ -56,9 +93,14 @@ class ProductsController extends Controller
      * @param  \App\Models\products  $products
      * @return \Illuminate\Http\Response
      */
-    public function edit(products $products)
+    public function edit($id)
     {
         //
+        return view('update/up_product',[
+            'products' => products::findorFail($id),
+            'proings' => Product_ingredient::findorFail(products::findorFail($id)),
+            'ingredients' => Ingredients::all()
+        ]);
     }
 
     /**
@@ -68,9 +110,28 @@ class ProductsController extends Controller
      * @param  \App\Models\products  $products
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateproductsRequest $request, products $products)
+    public function update(UpdateproductsRequest $request, $id)
     {
         //
+        $product = products::findorFail($id);
+
+        if($request->file('coverphoto')){
+            unlink('images/'.$product->);
+            $product->update([
+                'name' => $request->title,
+                '' => $request->synopsis,
+                'coverphoto' => $request->file('coverphoto')->store('coverphotos', 'public')
+            ]);
+
+        }else{
+            $book->update([
+                'title' => $request->title,
+                'synopsis' => $request->synopsis,
+            ]);   
+        }
+
+        return redirect('/index');
+
     }
 
     /**

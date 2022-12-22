@@ -1,9 +1,109 @@
 @extends('layouts.app')
 
 @section('main_content')
-<div class="mx-auto max-w-7xl py-6 px-4 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-3 gap-2">
-      <div class="w-full max-w-sm rounded-lg bg-white shadow-md">
+    <div class="mx-auto max-w-7xl py-6 px-4 sm:px-6 lg:px-8">
+
+        @auth
+            <div class="grid grid-cols-3 gap-2">
+                @if (Auth::check() && Auth::user()->status == 'member')
+                    @foreach ($products as $pro)
+                        <div class="w-full max-w-sm rounded-lg bg-white shadow-md">
+                            <a href="#">
+                                <img class="rounded-t-lg p-8" src="{{ asset('storage/' . $pro->image) }}" alt="product image" />
+                            </a>
+                            <div class="px-5 pb-5">
+                                <h5 class="text-xl font-semibold tracking-tight text-gray-900">{{ $pro['name'] }}</h5>
+                                <span><a href=""
+                                        class="decoration-slate-700-500 font-semibold text-gray-900 underline">See detail
+                                    </a></span>
+                                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ $pro['description'] }}</p>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-2xl font-bold text-gray-900">{{ $pro['price'] }}</span><span
+                                        class="text-gray-900">/pcs</span>
+                                    <a href=""
+                                        class="rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add
+                                        to cart</a>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                @elseif((Auth::check() && Auth::user()->status == 'admin') || Auth::user()->status == 'superadmin')
+                    @foreach ($products as $pro)
+                        <div class="w-full max-w-sm rounded-lg bg-white shadow-md">
+                            <a href="">
+                                <img class="rounded-t-lg p-8" src="{{ asset('storage/' . $pro->image) }}" alt="product image" />
+                            </a>
+                            <div class="px-5 pb-5">
+                                <h5 class="text-xl font-semibold tracking-tight text-gray-900">{{ $pro['name'] }}</h5>
+                                <span><a href=""
+                                        class="decoration-slate-700-500 font-semibold text-gray-900 underline">See detail
+                                    </a></span>
+                                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ $pro['description'] }}</p>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-2xl font-bold text-gray-900">{{ $pro['price'] }}</span><span
+                                        class="text-gray-900">/pcs</span>
+                                    <a href=""
+                                        class="rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Edit</a>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                @endif
+            </div>
+            @if ((Auth::check() && Auth::user()->status == 'admin') || Auth::user()->status == 'superadmin')
+            <div class="grid grid-cols-4 gap-3 my-3">
+                <div class="w-fit rounded-lg shadow-md mx-auto">
+                    <a href=" {{ route('products.create') }} "><button
+                            class="rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add
+                            Product</button></a>
+                </div>
+                <div class="w-fit rounded-lg shadow-md mx-auto">
+                    <a href=" {{ route('ingredients.create') }} "><button
+                            class="rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add
+                            Ingredients</button></a>
+                </div>
+                <div class="w-fit rounded-lg shadow-md mx-auto">
+                    <a href=" {{ route('category.create') }} "><button
+                            class="rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add
+                            Category</button></a>
+                </div>
+                <div class="w-fit rounded-lg shadow-md mx-auto">
+                    <a href=" {{ route('flavours.create') }} "><button
+                            class="rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add
+                            Flavours</button></a>
+                </div>
+            </div>
+            @endif
+        @endauth
+
+
+        @guest
+            <div class="grid grid-cols-3 gap-2">
+                @foreach ($products as $pro)
+                    <div class="w-full max-w-sm rounded-lg bg-white shadow-md">
+                        <a href="#">
+                            <img class="rounded-t-lg p-8" src="{{ asset('storage/' . $pro->image) }}" alt="product image" />
+                        </a>
+                        <div class="px-5 pb-5">
+                            <h5 class="text-xl font-semibold tracking-tight text-gray-900">{{ $pro['name'] }}</h5>
+                            <span><a href="" class="decoration-slate-700-500 font-semibold text-gray-900 underline">See
+                                    detail
+                                </a></span>
+                            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ $pro['description'] }}</p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-2xl font-bold text-gray-900">{{ $pro['price'] }}</span><span
+                                    class="text-gray-900">/pcs</span>
+                                <a href="/register"
+                                    class="rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add
+                                    to cart</a>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        @endguest
+
+        {{-- <div class="w-full max-w-sm rounded-lg bg-white shadow-md">
         <a href="#">
           <img class="rounded-t-lg p-8" src="" alt="product image" />
         </a>
@@ -31,25 +131,9 @@
             <a href="#" class="rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add to cart</a>
           </div>
         </div>
-      </div>
-  
-      <div class="w-full max-w-sm rounded-lg bg-white shadow-md">
-        <a href="#">
-          <img class="rounded-t-lg p-8" src="" alt="product image" />
-        </a>
-        <div class="px-5 pb-5">
-          <h5 class="text-xl font-semibold tracking-tight text-gray-900">Original</h5>
-          <span><a href="" class="decoration-slate-700-500 font-semibold text-gray-900 underline">See detail </a></span>
-          <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
-          <div class="flex items-center justify-between">
-            <span class="text-2xl font-bold text-gray-900">Rp.15000</span><span class="text-gray-900">/pcs</span>
-            <a href="#" class="rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add to cart</a>
-          </div>
-        </div>
-      </div>
+      </div> --}}
     </div>
-  </div>
-  
+
 
 
 
