@@ -30,15 +30,14 @@ class ProductsController extends Controller
     public function create()
     {
         //
-        
-            return view('create/cr_product', [
-                'pagetitle' => 'Create Products',
-                'products' => Products::all(),
-                'flavours' => Flavours::all(),
-                'categories' => Kategori::all(),
-                'proing' => Product_ingredient::all()
-            ]);
-        
+
+        return view('create/cr_product', [
+            'pagetitle' => 'Create Products',
+            'products' => Products::all(),
+            'flavours' => Flavours::all(),
+            'categories' => Kategori::all(),
+            'proing' => Product_ingredient::all()
+        ]);
     }
 
     /**
@@ -96,10 +95,12 @@ class ProductsController extends Controller
     public function edit($id)
     {
         //
-        return view('update/up_product',[
+        return view('update/up_product', [
             'products' => products::findorFail($id),
-            'proings' => Product_ingredient::findorFail(products::findorFail($id)),
-            'ingredients' => Ingredients::all()
+            'proings' => Product_ingredient::all(),
+            'ingredients' => Ingredients::all(),
+            'flavours' => Flavours::all(),
+            'categories' => Kategori::all()
         ]);
     }
 
@@ -115,23 +116,57 @@ class ProductsController extends Controller
         //
         $product = products::findorFail($id);
 
-        if($request->file('coverphoto')){
-            unlink('images/'.$product->);
-            $product->update([
-                'name' => $request->title,
-                '' => $request->synopsis,
-                'coverphoto' => $request->file('coverphoto')->store('coverphotos', 'public')
-            ]);
-
-        }else{
-            $book->update([
-                'title' => $request->title,
-                'synopsis' => $request->synopsis,
-            ]);   
+        if ($request->status) {
+            if ($request->file('image')) {
+                unlink('storage/' . $product->image);
+                $product->update([
+                    'name' => $request->name,
+                    'image' => $request->file('image')->store('images', 'public'),
+                    'stock' => $request->stock,
+                    'price' => $request->price,
+                    'description' => $request->description,
+                    'flavours_id' => $request->flavour,
+                    'kategori_id' => $request->category,
+                    'status' => $request->status
+                ]);
+            } else {
+                $product->update([
+                    'name' => $request->name,
+                    'stock' => $request->stock,
+                    'price' => $request->price,
+                    'description' => $request->description,
+                    'flavours_id' => $request->flavour,
+                    'kategori_id' => $request->category,
+                    'status' => $request->status
+                ]);
+            }
+        } else {
+            if ($request->file('image')) {
+                unlink('storage/' . $product->image);
+                $product->update([
+                    'name' => $request->name,
+                    'image' => $request->file('image')->store('images', 'public'),
+                    'stock' => $request->stock,
+                    'price' => $request->price,
+                    'description' => $request->description,
+                    'flavours_id' => $request->flavour,
+                    'kategori_id' => $request->category
+                ]);
+            } else {
+                $product->update([
+                    'name' => $request->name,
+                    'stock' => $request->stock,
+                    'price' => $request->price,
+                    'description' => $request->description,
+                    'flavours_id' => $request->flavour,
+                    'kategori_id' => $request->category
+                ]);
+            }
         }
 
-        return redirect('/index');
 
+
+        return redirect('/product');
     }
 
     /**
@@ -140,8 +175,21 @@ class ProductsController extends Controller
      * @param  \App\Models\products  $products
      * @return \Illuminate\Http\Response
      */
-    public function destroy(products $products)
+    public function destroy($id)
     {
         //
+        $product = products::findorFail($id);
+
+        if ($product['status'] == 'hide') {
+            $product->update([
+                'status' => 'show'
+            ]);
+        } else {
+            $product->update([
+                'status' => 'hide'
+            ]);
+        }
+
+        return redirect('update/up_product');
     }
 }

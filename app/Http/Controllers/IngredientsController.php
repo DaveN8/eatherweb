@@ -26,6 +26,10 @@ class IngredientsController extends Controller
     public function create()
     {
         //
+
+        return view('create/cr_ingredients',[
+            'ingredients' => ingredients::all()
+        ]);
     }
 
     /**
@@ -37,6 +41,19 @@ class IngredientsController extends Controller
     public function store(StoreingredientsRequest $request)
     {
         //
+        $this->validate($request, [
+            'name' => 'required'
+        ]);
+
+        ingredients::create([
+            'name' => $request->name
+        ]);
+
+        // $lastid = DB::getPdo()->lastInsertId();
+        // $id = DB::table('products');
+        // $lastid;
+
+        return redirect('/product');
     }
 
     /**
