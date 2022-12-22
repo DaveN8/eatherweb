@@ -13,7 +13,7 @@ class UpdatewishlistsRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**

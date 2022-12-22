@@ -6,7 +6,7 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="/">
-                        <img src="image/logo.png" alt="Eather" class="block h-9 w-auto fill-current text-gray-800">
+                        <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
                     </a>
                 </div>
                 
@@ -38,6 +38,11 @@
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
                 @auth    
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex" align="rigth">
+                    <x-nav-link href="{{ route('cart.create') }}">
+                        <img src="https://img.icons8.com/external-kiranshastry-solid-kiranshastry/64/null/external-shopping-cart-interface-kiranshastry-solid-kiranshastry-1.png" class="w-1/2 h-auto"/>
+                    </x-nav-link>
+                </div>
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
@@ -119,6 +124,11 @@
             <div class="px-4">
                 <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
                 <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+            </div>
+            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex" align="rigth">
+                <x-nav-link href="{{ route('cart.create') }}">
+                    <img src="https://img.icons8.com/external-kiranshastry-solid-kiranshastry/64/null/external-shopping-cart-interface-kiranshastry-solid-kiranshastry-1.png" class="w-1/2 h-auto"/>
+                </x-nav-link>
             </div>
 
             <div class="mt-3 space-y-1">

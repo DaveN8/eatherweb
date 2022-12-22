@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Products extends Model
 {
@@ -19,4 +21,16 @@ class Products extends Model
         "kategori_id",
         "status"
     ];
+
+    public function kategori(): BelongsTo{
+        return $this->belongsTo(Kategori::class);
+    }
+
+    public function flavours(): BelongsTo{
+        return $this->belongsTo(Flavours::class);
+    }
+
+    public function keranjang(): BelongsTo{
+        return $this->belongsTo(Keranjang::class);
+    }
 }
