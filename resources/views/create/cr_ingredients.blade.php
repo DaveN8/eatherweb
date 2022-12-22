@@ -1,4 +1,5 @@
-@extends('layouts.app')
+@extends('layout.main_layout')
+
 @section('main_content')
     {{-- <form action="" class="p-12">
     <div class=" mb-6">
