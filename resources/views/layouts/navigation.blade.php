@@ -39,7 +39,7 @@
             <div class="hidden sm:flex sm:items-center sm:ml-6">
                 @auth    
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex" align="rigth">
-                    <x-nav-link href="/cart">
+                    <x-nav-link href="{{ route('cart.create') }}">
                         <img src="https://img.icons8.com/external-kiranshastry-solid-kiranshastry/64/null/external-shopping-cart-interface-kiranshastry-solid-kiranshastry-1.png" class="w-1/2 h-auto"/>
                     </x-nav-link>
                 </div>
@@ -126,7 +126,7 @@
                 <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
             </div>
             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex" align="rigth">
-                <x-nav-link href="/cart">
+                <x-nav-link href="{{ route('cart.create') }}">
                     <img src="https://img.icons8.com/external-kiranshastry-solid-kiranshastry/64/null/external-shopping-cart-interface-kiranshastry-solid-kiranshastry-1.png" class="w-1/2 h-auto"/>
                 </x-nav-link>
             </div>

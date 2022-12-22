@@ -12,6 +12,7 @@ class Histori extends Model
     protected $fillable = [
         "status_payment",
         "order_status",
-        "bukti_trf"
+        "bukti_trf",
+        "keranjang_id"
     ];
 }

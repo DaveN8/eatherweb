@@ -23,7 +23,7 @@ class Keranjang extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function products():HasMany{
-        return $this->hasMany(Products::class);
+    public function products():BelongsTo{
+        return $this->belongsTo(Products::class);
     }
 }

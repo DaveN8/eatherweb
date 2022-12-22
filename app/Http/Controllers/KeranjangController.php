@@ -23,22 +23,19 @@ class KeranjangController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     * @param  \App\Http\Requests\StorekeranjangRequest 
+     *  
      * @return \Illuminate\Http\Response
      */
-    public function create(StorekeranjangRequest $request)
+    public function create()
     {
         //
-
-        dd($request->products_id);
 
         // $product_id = Products::findorFail('products_id');
         // $product_id = 'products_id';
 
-        return view('create/cr_keranjang',[
-            'products' => Products::all(),
-            // 'product_id' => $id,
-            'users' => Auth::user()
+        return view('keranjang', [
+            'cart' => keranjang::all(),
+            'products' => Products::all()
         ]);
     }
 
@@ -80,7 +77,7 @@ class KeranjangController extends Controller
     public function show($id)
     {
         //
-        return view('create/cr_keranjang',[
+        return view('create/cr_keranjang', [
             'products' => Products::all(),
             'product_id' => $id,
             'users' => User::all()
@@ -93,9 +90,12 @@ class KeranjangController extends Controller
      * @param  \App\Models\keranjang  $keranjang
      * @return \Illuminate\Http\Response
      */
-    public function edit(keranjang $keranjang)
+    public function edit($id)
     {
         //
+        return view('keranjang', [
+            'cart' => keranjang::findorFail($id),
+        ]);
     }
 
     /**
@@ -105,9 +105,55 @@ class KeranjangController extends Controller
      * @param  \App\Models\keranjang  $keranjang
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdatekeranjangRequest $request, keranjang $keranjang)
+    public function update(UpdatekeranjangRequest $request, $id)
     {
         //
+
+        $cart = keranjang::findorFail($id);
+
+        if ($request->status) {
+            if ($request->file('image')) {
+                unlink('storage/' . $cart->image);
+                $cart->update([
+                    'name' => $request->name,
+                    'image' => $request->file('image')->store('images', 'public'),
+                    'stock' => $request->stock,
+                    'price' => $request->price,
+                    'description' => $request->description,
+                    'flavours_id' => $request->flavour,
+                    'kategori_id' => $request->category,
+                    'status' => $request->status
+                ]);
+            } else {
+                $cart->update([
+                    'name' => $request->name,
+                    'stock' => $request->stock,
+                    'price' => $request->price,
+                    'description' => $request->description,
+                    'flavours_id' => $request->flavour,
+                    'kategori_id' => $request->category,
+                    'status' => $request->status
+                ]);
+            }
+        } else {
+            if ($request->catatan) {
+                # code...
+                $cart->update([
+                    'jumlah_product' => $request->jumlah_product,
+                    'catatan' => $request->catatan,
+                ]);
+            } else {
+                # code...
+                $cart->update([
+                    'jumlah_product' => $request->jumlah_product,
+                ]);
+            }
+            
+        }
+
+
+
+        return redirect(route('cart.create'));
     }
 
     /**

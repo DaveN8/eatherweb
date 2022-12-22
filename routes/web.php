@@ -42,9 +42,6 @@ Route::get('/detail', function () {
 //------------------------------------
 
 //Keranjang
-Route::get('/cart', function () {
-    return view('keranjang');
-});
 
 //Histori
 Route::get('/histori', function () {
