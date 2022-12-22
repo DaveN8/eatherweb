@@ -1,4 +1,4 @@
-@extends('layout.main_layout')
+@extends('layouts.app')
 
 @section('main_content')
     <h3>History</h3>
