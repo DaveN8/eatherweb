@@ -26,6 +26,9 @@ class KategoriController extends Controller
     public function create()
     {
         //
+        return view('create/cr_kategori',[
+            'category' => kategori::all()
+        ]);
     }
 
     /**
@@ -37,6 +40,19 @@ class KategoriController extends Controller
     public function store(StorekategoriRequest $request)
     {
         //
+        $this->validate($request, [
+            'name' => 'required'
+        ]);
+
+        kategori::create([
+            'name' => $request->name
+        ]);
+
+        // $lastid = DB::getPdo()->lastInsertId();
+        // $id = DB::table('products');
+        // $lastid;
+
+        return redirect('/product');
     }
 
     /**

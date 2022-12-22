@@ -1,20 +1,167 @@
-@extends('layout.main_layout')
-
+@extends('layouts.app')
 @section('main_content')
-    <form class="p-12">
-        <div class="mb-6">
-            <label for="stock" class="block mb-2 text-sm font-medium text-gray-900 ">Jumlah Stock</label>
-            <input type="number" id="stock"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Jumlah Stock" required>
+    {{-- <form action="/product" method="POST">
+        <div class="">
+
         </div>
-        <div class="mb-6">
-            <label for="message" class="block mb-2 text-sm font-medium text-gray-900 ">Catatan</label>
-            <textarea id="message" rows="4"
-                class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Write your thoughts here..."></textarea>
-        </div>
-        <a href="#" type="submit"
-            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</a>
-    </form>
+    </form> --}}
+    @auth
+        @if (Auth::check() && Auth::user()->status == 'member')
+            <form action="{{ route('cart.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <section class="py-1 bg-blueGray-50">
+                    <div class="w-full lg:w-8/12 px-4 mx-auto mt-6">
+                        <div
+                            class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0">
+                            <div class="rounded-t bg-white mb-0 px-6 py-6">
+                                <div class="text-center flex justify-between">
+                                    <h6 class="text-blueGray-700 text-xl font-bold">
+                                        Tambah Ke Keranjang
+                                    </h6>
+                                    <button
+                                        class="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                                        type="submit">
+                                        Tambah
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
+
+                                <h6 class="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
+                                    Product Information
+                                </h6>
+                                <div class="flex flex-wrap">
+                                    @foreach ($products as $pro)
+                                        @if ($pro['id'] == $product_id)
+                                            
+                                        <div class="w-full lg:w-6/12 px-4">
+                                            <div class="relative w-full mb-3">
+                                                <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                                                    htmlfor="grid-password">
+                                                    Product's Name
+                                                </label>
+                                                <input type="text" name="name" readonly value="{{ $pro['name'] }}"
+                                                    class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
+                                                {{-- @if ($errors->has('name'))
+                                                    <p class="text-danger">{{ $errors->first('name') }}</p>
+                                                @endif --}}
+                                            </div>
+                                        </div>
+                                        @endif
+                                    @endforeach
+                                    <div class="w-full lg:w-6/12 px-4">
+                                        <div class="relative w-full mb-3">
+                                            <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                                                htmlfor="grid-password">
+                                                Jumlah yang Dibeli
+                                            </label>
+                                            <input type="number" name="jumlah_product"
+                                                class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
+                                            @if ($errors->has('jumlah_product'))
+                                                <p class="text-danger">{{ $errors->first('jumlah_product') }}</p>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    @foreach ($products as $pro)
+                                        @if ($pro['id'] == $product_id)
+                                        <div class="w-full lg:w-6/12 px-4">
+                                            <div class="relative w-full mb-3">
+                                                <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                                                    htmlfor="grid-password">
+                                                    Price
+                                                </label>
+                                                <input type="number" name="price" readonly value="{{ $pro['price'] }}"
+                                                    class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
+                                                {{-- @if ($errors->has('price'))
+                                                    <p class="text-danger">{{ $errors->first('price') }}</p>
+                                                @endif --}}
+                                            </div>
+                                        </div>
+                                        @endif
+                                    @endforeach
+                                    {{-- <div class="w-full lg:w-6/12 px-4">
+                                        <div class="relative w-full mb-3">
+                                            <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                                                htmlfor="grid-password">
+                                                Image
+                                            </label>
+                                            <input type="file" name="image"
+                                                class="border-0 px-3 py-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
+                                            @if ($errors->has('image'))
+                                                <p class="text-danger">{{ $errors->first('image') }}</p>
+                                            @endif
+                                        </div>
+                                    </div> --}}
+                                </div>
+
+                                {{-- <hr class="mt-6 border-b-1 border-blueGray-300">
+
+                                <h6 class="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
+                                    Flavour and Category
+                                </h6>
+                                <div class="flex flex-wrap">
+                                    <div class="w-full lg:w-12/12 px-4">
+                                        <div class="relative w-full mb-3">
+                                            <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                                                htmlfor="grid-password">
+                                                Flavour
+                                            </label>
+                                            <div>
+                                                <select name="flavour"
+                                                    class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
+                                                    @foreach ($flavours as $fla)
+                                                        <option value="{{ $fla['id'] }}">{{ $fla['name'] }}</option>
+                                                    @endforeach
+                                                </select>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="w-full lg:w-12/12 px-4">
+                                        <div class="relative w-full mb-3">
+                                            <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                                                htmlfor="grid-password">
+                                                Category
+                                            </label>
+
+                                            <div>
+                                                <select name="category"
+                                                    class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
+                                                    @foreach ($categories as $cat)
+                                                        <option value="{{ $cat['id'] }}">{{ $cat['name'] }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr class="mt-6 border-b-1 border-blueGray-300"> --}}
+
+                                <h6 class="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
+                                    Catatan
+                                </h6>
+                                <div class="flex flex-wrap">
+                                    <div class="w-full lg:w-12/12 px-4">
+                                        <div class="relative w-full mb-3">
+                                            <textarea type="text" name="catatan"
+                                                class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                                                rows="4" placeholder="Catatan untuk penjual"></textarea>
+                                            {{-- @if ($errors->has('catatan'))
+                                                <p class="text-danger"></p>
+                                            @endif --}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                                <input type="hidden" name="products_id" value="{{ $product_id }}">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </form>
+        @elseif(Auth::check() && Auth::user()->status == 'admin')
+            <p>YOU AREN'T MEMBER</p>
+        @endif
+    @endauth
 @endsection

@@ -26,6 +26,9 @@ class FlavoursController extends Controller
     public function create()
     {
         //
+        return view('create/cr_flavour',[
+            'flavour' => flavours::all()
+        ]);
     }
 
     /**
@@ -37,6 +40,19 @@ class FlavoursController extends Controller
     public function store(StoreflavoursRequest $request)
     {
         //
+        $this->validate($request, [
+            'name' => 'required'
+        ]);
+
+        flavours::create([
+            'name' => $request->name
+        ]);
+
+        // $lastid = DB::getPdo()->lastInsertId();
+        // $id = DB::table('products');
+        // $lastid;
+
+        return redirect('/product');
     }
 
     /**
@@ -79,7 +95,7 @@ class FlavoursController extends Controller
      * @param  \App\Models\flavours  $flavours
      * @return \Illuminate\Http\Response
      */
-    public function destroy(flavours $flavours)
+    public function destroy($id)
     {
         //
     }

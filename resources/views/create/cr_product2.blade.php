@@ -32,61 +32,64 @@
                 </form> --}}
 
     @auth
-        <section class="py-1 bg-blueGray-50">
-            <div class="lg:w-8/12 px-4 mx-auto mt-3">
-                <div class="rounded-t bg-white mb-0 px-6 py-6">
-                    <div class="text-center flex justify-between">
-                        <h3 class="mb-4 font-semibold text-gray-900 ">Ingredients</h3>
-                        <a href="/product"><button
-                                class="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-                                type="button">
-                                Finish
-                            </button>
-                        </a>
+        @if (Auth::check() && Auth::user()->status == 'admin')
+            <section class="py-1 bg-blueGray-50">
+                <div class="lg:w-8/12 px-4 mx-auto mt-3">
+                    <div class="rounded-t bg-white mb-0 px-6 py-6">
+                        <div class="text-center flex justify-between">
+                            <h3 class="mb-4 font-semibold text-gray-900 ">Ingredients</h3>
+                            <a href="/product"><button
+                                    class="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                                    type="button">
+                                    Finish
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-4 gap-4 place-items-center text-sm font-medium sm:flex">
+                        @foreach ($ingredients as $ing)
+                            <form action="{{ route('product_ingredients.store') }}" method="POST" enctype="multipart/form-data">
+                                @csrf
+                                <input type="hidden" value="{{ $ing['id'] }}" name="ingredients_id"
+                                    class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:border-gray-500">
+                                <input type="hidden" value="{{ $products['id'] }}" name="products_id">
+                                <div class="text-black w-fit border-sky-200 bg-gray-100 rounded-lg drop-shadow-md">
+                                    <button type="submit"
+                                        class="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150">{{ $ing['name'] }}</button>
+                                </div>
+                            </form>
+                        @endforeach
+                    </div>
+                    <div class="relative w-full my-6">
+                        <label class="col-span-2py-3 ml-2 w-full text-sm font-medium py-2">Click To add
+                            Ingredients</label>
+                    </div>
+                    <div class="relative w-full my-6">
+                        <label class="col-span-2py-3 ml-2 w-full text-sm font-medium py-2">Added Ingredients</label>
+                        <section class="py-1 bg-gray-100 rounded-lg drop-shadow-md">
+                            <div class="lg:w-8/12 px-4 mx-auto mt-3">
+                                <ul class="list-disc">
+                                    @foreach ($proings as $pin)
+                                        @if ($pin['products_id'] == $products['id'])
+                                            @foreach ($ingredients as $ing)
+                                                @if ($pin['ingredients_id'] == $ing['id'])
+                                                    <li class="text-black w-fit border-sky-200 rounded-lg">
+                                                        <p>{{ $ing['name'] }}</p>
+                                                    </li>
+                                                @endif
+                                            @endforeach
+                                        @endif
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </section>
                     </div>
                 </div>
-
-                <div class="grid grid-cols-4 gap-4 place-items-center text-sm font-medium sm:flex">
-                    @foreach ($ingredients as $ing)
-                        <form action="{{ route('product_ingredients.store') }}" method="POST" enctype="multipart/form-data">
-                            @csrf
-                            <input type="hidden" value="{{ $ing['id'] }}" name="ingredients_id"
-                                class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:border-gray-500">
-                            <input type="hidden" value="{{ $products['id'] }}" name="products_id">
-                            <div class="text-black w-fit border-sky-200 bg-gray-100 rounded-lg drop-shadow-md">
-                                <button type="submit"
-                                    class="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150">{{ $ing['name'] }}</button>
-                            </div>
-                        </form>
-                    @endforeach
-                </div>
-                <div class="relative w-full my-6">
-                    <label class="col-span-2py-3 ml-2 w-full text-sm font-medium py-2">Click To add
-                        Ingredients</label>
-                </div>
-                <div class="relative w-full my-6">
-                    <label class="col-span-2py-3 ml-2 w-full text-sm font-medium py-2">Added Ingredients</label>
-                    <section class="py-1 bg-gray-100 rounded-lg drop-shadow-md">
-                        <div class="lg:w-8/12 px-4 mx-auto mt-3">
-                            <ul class="list-disc">
-                                @foreach ($proings as $pin)
-                                    @if ($pin['products_id'] == $products['id'])
-                                        @foreach ($ingredients as $ing)
-                                            @if ($pin['ingredients_id'] == $ing['id'])
-                                                <li
-                                                    class="text-black w-fit border-sky-200 rounded-lg">
-                                                    <p>{{ $ing['name'] }}</p>
-                                                </li>
-                                            @endif
-                                        @endforeach
-                                    @endif
-                                @endforeach
-                            </ul>
-                        </div>
-                    </section>
-                </div>
-            </div>
-        </section>
+            </section>
+        @elseif (Auth::check() && Auth::user()->status == 'member')
+        <h1>YOU DON'T HAVE ACCESS</h1>
+        @endif
     @endauth
     {{-- <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                             <div class="flex items-center pl-3">

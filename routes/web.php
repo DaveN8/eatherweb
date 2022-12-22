@@ -1,8 +1,16 @@
 <?php
 
+use App\Http\Controllers\AlamatController;
+use App\Http\Controllers\FlavoursController;
+use App\Http\Controllers\HistoriController;
+use App\Http\Controllers\IngredientsController;
+use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\KeranjangController;
 use App\Http\Controllers\ProductIngredientController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReviewsController;
+use App\Http\Controllers\WishlistsController;
 use App\Models\Aboutus;
 use App\Models\Alamat;
 use App\Models\Flavours;
@@ -34,7 +42,7 @@ Route::get('/detail', function () {
 //------------------------------------
 
 //Keranjang
-Route::get('/keranjang', function () {
+Route::get('/cart', function () {
     return view('keranjang');
 });
 
@@ -84,16 +92,16 @@ Route::get('/about', function () {
 //     return view('/create/cr_alamat');
 // });
 
-Route::resource('alamat', Alamat::class);
+Route::resource('alamat', AlamatController::class);
 Route::resource('products', ProductsController::class)->middleware("admin");
 Route::resource('product_ingredients', ProductIngredientController::class)->middleware('admin');
-Route::resource('ingredients', Ingredients::class)->middleware('admin');
-Route::resource('category', Kategori::class)->middleware('admin');
-Route::resource('flavours', Flavours::class)->middleware('admin');
-Route::resource('histori', Histori::class);
-Route::resource('keranjang', Keranjang::class);
-Route::resource('review', Reviews::class);
-Route::resource('wishlist', Wishlists::class);
+Route::resource('ingredients', IngredientsController::class)->middleware('admin');
+Route::resource('category', KategoriController::class)->middleware('admin');
+Route::resource('flavours', FlavoursController::class)->middleware('admin');
+Route::resource('histori', HistoriController::class);
+Route::resource('cart', KeranjangController::class);
+Route::resource('review', ReviewsController::class);
+Route::resource('wishlist', WishlistsController::class);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
