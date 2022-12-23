@@ -79,8 +79,7 @@ class KeranjangController extends Controller
         //
         return view('create/cr_keranjang', [
             'products' => Products::all(),
-            'product_id' => $id,
-            'users' => User::all()
+            'product_id' => $id
         ]);
     }
 
@@ -162,8 +161,10 @@ class KeranjangController extends Controller
      * @param  \App\Models\keranjang  $keranjang
      * @return \Illuminate\Http\Response
      */
-    public function destroy(keranjang $keranjang)
+    public function destroy($id)
     {
-        //
+        $cart = keranjang::findorFail($id);
+        $cart->delete();
+        return redirect(route('cart.create'));
     }
 }
