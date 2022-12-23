@@ -1,9 +1,7 @@
 @extends('layouts.app')
 
 @section('main_content')
-    <div class="container">
-        <h3>Payment</h3>
-    </div>
+   
 
 
     <div class="container">
@@ -33,7 +31,7 @@
 
         <div class="mb-2">
 <label class="block mb-2 text-xs font-medium text-red dark:text-red-900" for="file_input">please uploud your proof transaction below here</label>
-<input class="block w-full text-sm text-white border border-gray-300 rounded-lg cursor-pointer bg-white dark:text-gray-400 focus:outline-none dark:bg-white dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file">
+<input class="block w-full text-sm text-white border border-gray-300 rounded-lg cursor-pointer bg-white dark:text-gray-400 focus:outline-none dark:bg-white dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file" name="bukti_trf">
         </div>
         
           <div class="flex justify-center ">

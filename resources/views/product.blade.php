@@ -10,33 +10,37 @@
                         @if ($pro['status'] == 'hide')
                         @elseif($pro['status'] == 'show')
                             <div class="w-full max-w-sm rounded-lg bg-white shadow-md">
-                                <form action="{{ route('cart.show', $pro->id) }}" method="GET" enctype="multipart/form-data">
-                                    @csrf
-                                    {{-- <input type="hidden" name="products_id" value="{{ $pro['id'] }}"> --}}
-                                    <a href="">
-                                        <img class="rounded-t-lg p-8" src="{{ asset('storage/' . $pro->image) }}"
-                                            alt="product image" />
-                                    </a>
-                                    <div class="px-5 pb-5">
-                                        <h5 class="text-xl font-semibold tracking-tight text-gray-900">{{ $pro['name'] }}</h5>
-                                        <span><a href=""
-                                                class="decoration-slate-700-500 font-semibold text-gray-900 underline">See
-                                                detail
-                                            </a></span>
-                                        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ $pro['description'] }}
-                                        </p>
-                                        <div class="flex items-center justify-between">
-                                            <span class="text-2xl font-bold text-gray-900">{{ $pro['price'] }}</span><span
-                                                class="text-gray-900">/pcs</span>
-                                                {{-- <a href="{{ route('cart.create', $pro["id"]) }}"> --}}
-                                                    {{-- <a href=""> --}}
+                                {{-- <input type="hidden" name="products_id" value="{{ $pro['id'] }}"> --}}
+                                <a href="">
+                                    <img class="rounded-t-lg p-8" src="{{ asset('storage/' . $pro->image) }}"
+                                        alt="product image" />
+                                </a>
+                                <div class="px-5 pb-5">
+                                    <h5 class="text-xl font-semibold tracking-tight text-gray-900">{{ $pro['name'] }}</h5>
+                                    <span><a href="{{ route('products.show', $pro->id) }}"
+                                            class="decoration-slate-700-500 font-semibold text-gray-900 underline">See
+                                            detail
+                                        </a></span>
+                                    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ $pro['description'] }}
+                                    </p>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-2xl font-bold text-gray-900">{{ $pro['price'] }}</span><span
+                                            class="text-gray-900">/pcs</span>
+                                        {{-- <a href="{{ route('cart.create', $pro["id"]) }}"> --}}
+                                        {{-- <a href=""> --}}
+                                            <a href="/wishlists" class="rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                                Wishlist
+                                            </a>
+                                        <form action="{{ route('cart.show', $pro->id) }}" method="GET"
+                                            enctype="multipart/form-data">
+                                            @csrf
                                             <button type="submit"
                                                 class="rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add
                                                 to Cart</button>
-                                            {{-- </a> --}}
-                                        </div>
+                                        </form>
+                                        {{-- </a> --}}
                                     </div>
-                                </form>
+                                </div>
                             </div>
                         @endif
                     @endforeach
@@ -96,7 +100,7 @@
                         </a>
                         <div class="px-5 pb-5">
                             <h5 class="text-xl font-semibold tracking-tight text-gray-900">{{ $pro['name'] }}</h5>
-                            <span><a href="" class="decoration-slate-700-500 font-semibold text-gray-900 underline">See
+                            <span><a href="{{ route('products.show', $pro->id) }}" class="decoration-slate-700-500 font-semibold text-gray-900 underline">See
                                     detail
                                 </a></span>
                             <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ $pro['description'] }}</p>

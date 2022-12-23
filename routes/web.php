@@ -36,7 +36,7 @@ use Illuminate\support\facades\Route;
 |
 */
 //Product ---------------------------
-Route::get('/detail', function () {
+Route::get('/details', function () {
     return view('detail');
 });
 //------------------------------------
@@ -44,12 +44,16 @@ Route::get('/detail', function () {
 //Keranjang
 
 //Histori
-Route::get('/histori', function () {
+Route::get('/history', function(){
     return view('histori');
 });
 
 Route::get('/payment', function () {
     return view('payment');
+});
+
+Route::get('/wishlists', function () {
+    return view('wishlist');
 });
 
 Route::get('/', function () {

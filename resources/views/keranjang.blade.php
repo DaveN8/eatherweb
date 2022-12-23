@@ -12,102 +12,104 @@
                                 <h6 class="text-blueGray-700 text-xl font-bold">
                                     Keranjang
                                 </h6>
-                                {{-- <button
+                                <a href="/payment">
+                                    <button
                                         class="bg-sky-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-                                        type="submit">
+                                        type="button">
                                         Checkout
-                                    </button> --}}
+                                    </button>
+                                </a>
                             </div>
                         </div>
                         <div class="flex-auto px-4 lg:px-10 py-10">
                             @foreach ($cart as $car)
-                                <form action="{{ route('histori.show', $car->id) }}" method="GET" enctype="multipart/form-data">
-                                    <div
-                                        class="flex p-4 items-center justify-center w-[680px] rounded-xl group sm:flex space-x-6 bg-white bg-opacity-50 shadow-xl hover:rounded-2xl">
-                                        <img class="mx-auto w-full block w-4/12 h-40 rounded-lg" alt="art cover" loading="lazy"
-                                            src='{{ asset('storage/' . $car->products->image) }}' />
-                                        <div class="sm:w-8/12 pl-0 p-5">
-                                            <div class="space-y-2">
-                                                <div class="flex justify-between items-center space-y-4">
-                                                    <h4 class="text-md font-semibold text-cyan-900 text-justify">
-                                                        {{ $car->products->name }}
-                                                    </h4>
-                                                    <button
-                                                        class="bg-sky-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150"
-                                                        type="submit">
-                                                        Checkout
+                                <div
+                                    class="flex p-4 items-center justify-center w-[680px] rounded-xl group sm:flex space-x-6 bg-white bg-opacity-50 shadow-xl hover:rounded-2xl mb-4">
+                                    <img class="mx-auto w-full block w-4/12 h-40 rounded-lg" alt="art cover" loading="lazy"
+                                        src='{{ asset('storage/' . $car->products->image) }}' />
+                                    <div class="sm:w-8/12 pl-0 p-5">
+                                        <div class="space-y-2">
+                                            <div class="flex justify-between items-center space-y-4">
+                                                <h4 class="text-md font-semibold text-cyan-900 text-justify">
+                                                    {{ $car->products->name }}
+                                                </h4>
+                                                <form action="{{ route('cart.destroy', $car->id) }}" method="POST"
+                                                    enctype="multipart/form-data">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit"
+                                                        class="bg-red-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150">
+                                                        X
                                                     </button>
-                                                </div>
-                                                <div class="flex items-center space-x-4 justify-between">
-                                                    <div class="flex gap-3 space-y-1">
-                                                        <span class="text-sm">Total Price: RP.
-                                                            {{ $car->products->price }}</span>
-                                                    </div>
-                                                </div>
+                                                </form>
                                             </div>
-
                                             <div class="flex items-center space-x-4 justify-between">
-                                                <div class="text-grey-500 flex flex-row space-x-1  my-4">
-                                                    <div>
-                                                        <textarea name="catatan" cols="30" rows="2" placeholder="{{ $car['catatan'] }}"
-                                                            class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"></textarea>
-                                                    </div>
-                                                </div>
-                                                <div class="flex flex-row space-x-1 items-center justify-center">
-                                                    <div
-                                                        class="text-white cursor-pointer px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row">
-                                                        <a href="">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="25"
-                                                                height="25" fill="currentColor" class="bi bi-dash-circle"
-                                                                viewBox="0 0 16 16" id="IconChangeColor">
-                                                                <path
-                                                                    d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
-                                                                    id="mainIconPathAttribute" stroke-width="0.1"
-                                                                    stroke="#000000" fill="#000000" filter="url(#shadow)">
-                                                                </path>
-                                                                <path
-                                                                    d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"
-                                                                    id="mainIconPathAttribute" stroke="#000000" fill="#000000">
-                                                                </path>
-                                                                <filter id="shadow">
-                                                                    <feDropShadow id="shadowValue" stdDeviation="0"
-                                                                        dx="0.1" dy="0" flood-color="black">
-                                                                    </feDropShadow>
-                                                                </filter>
-                                                                <filter id="shadow">
-                                                                    <feDropShadow id="shadowValue" stdDeviation=".5"
-                                                                        dx="0" dy="0" flood-color="black">
-                                                                    </feDropShadow>
-                                                                </filter>
-                                                            </svg>
-                                                        </a>
-
-
-
-                                                        <!-- <span>23</span> -->
-                                                    </div>
-                                                    <div class="px-4">
-                                                        <span class="text-black">{{ $car['jumlah_product'] }}</span>
-                                                    </div>
-                                                    <div
-                                                        class="text-white cursor-pointer px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row">
-                                                        <a href="">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" x="0px"
-                                                                y="0px" width="32" height="32"
-                                                                viewBox="0 0 32 32">
-
-                                                                <path
-                                                                    d="M 16 3 C 8.832031 3 3 8.832031 3 16 C 3 23.167969 8.832031 29 16 29 C 23.167969 29 29 23.167969 29 16 C 29 8.832031 23.167969 3 16 3 Z M 16 5 C 22.085938 5 27 9.914063 27 16 C 27 22.085938 22.085938 27 16 27 C 9.914063 27 5 22.085938 5 16 C 5 9.914063 9.914063 5 16 5 Z M 15 10 L 15 15 L 10 15 L 10 17 L 15 17 L 15 22 L 17 22 L 17 17 L 22 17 L 22 15 L 17 15 L 17 10 Z">
-                                                                </path>
-                                                            </svg>
-                                                        </a>
-                                                    </div>
+                                                <div class="flex gap-3 space-y-1">
+                                                    <span class="text-sm">Total Price: RP.
+                                                        {{ $car->products->price }}</span>
                                                 </div>
                                             </div>
-
                                         </div>
+
+                                        <div class="flex items-center space-x-4 justify-between">
+                                            <div class="text-grey-500 flex flex-row space-x-1  my-4">
+                                                <div>
+                                                    <textarea name="catatan" cols="30" rows="2" placeholder="{{ $car['catatan'] }}"
+                                                        class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="flex flex-row space-x-1 items-center justify-center">
+                                                <div
+                                                    class="text-white cursor-pointer px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row">
+                                                    <a href="">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
+                                                            fill="currentColor" class="bi bi-dash-circle" viewBox="0 0 16 16"
+                                                            id="IconChangeColor">
+                                                            <path
+                                                                d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+                                                                id="mainIconPathAttribute" stroke-width="0.1" stroke="#000000"
+                                                                fill="#000000" filter="url(#shadow)">
+                                                            </path>
+                                                            <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"
+                                                                id="mainIconPathAttribute" stroke="#000000" fill="#000000">
+                                                            </path>
+                                                            <filter id="shadow">
+                                                                <feDropShadow id="shadowValue" stdDeviation="0" dx="0.1"
+                                                                    dy="0" flood-color="black">
+                                                                </feDropShadow>
+                                                            </filter>
+                                                            <filter id="shadow">
+                                                                <feDropShadow id="shadowValue" stdDeviation=".5" dx="0"
+                                                                    dy="0" flood-color="black">
+                                                                </feDropShadow>
+                                                            </filter>
+                                                        </svg>
+                                                    </a>
+
+
+
+                                                    <!-- <span>23</span> -->
+                                                </div>
+                                                <div class="px-4">
+                                                    <span class="text-black">{{ $car['jumlah_product'] }}</span>
+                                                </div>
+                                                <div
+                                                    class="text-white cursor-pointer px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row">
+                                                    <a href="">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+                                                            width="32" height="32" viewBox="0 0 32 32">
+
+                                                            <path
+                                                                d="M 16 3 C 8.832031 3 3 8.832031 3 16 C 3 23.167969 8.832031 29 16 29 C 23.167969 29 29 23.167969 29 16 C 29 8.832031 23.167969 3 16 3 Z M 16 5 C 22.085938 5 27 9.914063 27 16 C 27 22.085938 22.085938 27 16 27 C 9.914063 27 5 22.085938 5 16 C 5 9.914063 9.914063 5 16 5 Z M 15 10 L 15 15 L 10 15 L 10 17 L 15 17 L 15 22 L 17 22 L 17 17 L 22 17 L 22 15 L 17 15 L 17 10 Z">
+                                                            </path>
+                                                        </svg>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                     </div>
-                                </form>
+                                </div>
                             @endforeach
                         </div>
                     </div>

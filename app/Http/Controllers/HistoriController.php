@@ -26,7 +26,10 @@ class HistoriController extends Controller
      */
     public function create()
     {
-        //
+        return view('histori', [
+            'history' => histori::all()
+            // 'products' => Products::all()
+        ]);
     }
 
     /**
