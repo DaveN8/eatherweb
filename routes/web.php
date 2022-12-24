@@ -23,6 +23,7 @@ use App\Models\Products;
 use App\Models\Reviews;
 use App\Models\User;
 use App\Models\Wishlists;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\support\facades\Route;
 
 /*
@@ -44,7 +45,7 @@ Route::get('/details', function () {
 //Keranjang
 
 //Histori
-Route::get('/history', function(){
+Route::get('/history', function () {
     return view('histori');
 });
 
@@ -56,9 +57,16 @@ Route::get('/wishlists', function () {
     return view('wishlist');
 });
 
+
+
 Route::get('/', function () {
     return view('home');
 });
+
+Route::get('/admins', function () {
+    return view('admin/index');
+})->middleware('admin');
+
 
 Route::get('/product', function () {
     return view('product', [
@@ -114,4 +122,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
