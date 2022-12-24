@@ -8,6 +8,8 @@ use App\Http\Requests\UpdatekeranjangRequest;
 use App\Models\Products;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Spatie\FlareClient\Http\Exceptions\NotFound;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class KeranjangController extends Controller
 {
@@ -52,20 +54,64 @@ class KeranjangController extends Controller
             'jumlah_product' => 'required'
         ]);
 
-        // $product_id = Products::findorFail($id);
+        // $product_id = ;
+        if ($request->products_id) {
+            $cart = keranjang::all();
+            // if ($cart instanceof NotFoundHttpException) {
+            //     keranjang::create([
+            //         'jumlah_product' => $request->jumlah_product,
+            //         'catatan' => $request->catatan,
+            //         'user_id' => $request->user_id,
+            //         'products_id' => $request->products_id
+            //     ]);
+            // }else{
+            if (!isset($cart)) {
+                keranjang::create([
+                    'jumlah_product' => $request->jumlah_product,
+                    'catatan' => $request->catatan,
+                    'user_id' => $request->user_id,
+                    'products_id' => $request->products_id
+                ]);
+            } else {
+                foreach ($cart as $car) {
+                    if ($request->products_id == $car['id'] && $car['status'] == "hide") {
+                        keranjang::create([
+                            'jumlah_product' => $request->jumlah_product,
+                            'catatan' => $request->catatan,
+                            'user_id' => $request->user_id,
+                            'products_id' => $request->products_id
+                        ]);
+                    } elseif ($request->products_id == $car['id'] && $car['status'] == "show") {
+                        return redirect(route('/product'))->with('message', "Product has been added");
+                    }
+                }
+            }
+        }
+        return redirect('/product');
 
-        keranjang::create([
-            'jumlah_product' => $request->jumlah_product,
-            'catatan' => $request->catatan,
-            'user_id' => $request->user_id,
-            'products_id' => $request->products_id
-        ]);
+
+
+
+        // foreach($cart as $car){
+        //     if($request->products_id == $car['id'] && $car['status'] == 'hide') {
+        //         keranjang::create([
+        //             'jumlah_product' => $request->jumlah_product,
+        //             'catatan' => $request->catatan,
+        //             'user_id' => $request->user_id,
+        //             'products_id' => $request->products_id
+        //         ]);        
+        //     } elseif ($request->products_id == $car['id'] && $car['status'] == 'show') {
+        //         echo '<script>alert("Products has been added")</script>';
+        //     } elseif ($request->products_id) {
+
+        //     }
+        // }
 
         // $lastid = DB::getPdo()->lastInsertId();
         // $id = DB::table('products');
         // $lastid;
 
-        return redirect('/product');
+
     }
 
     /**
@@ -147,7 +193,6 @@ class KeranjangController extends Controller
                     'jumlah_product' => $request->jumlah_product,
                 ]);
             }
-            
         }
 
 

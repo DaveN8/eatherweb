@@ -14,7 +14,7 @@ class Ingredients extends Model
         "name"
     ];
 
-    // public function products():HasMany{
-    //     return $this->hasMany(Products::class);
-    // }
+    public function product_ingredients():HasMany{
+        return $this->hasMany(product_ingredients::class);
+    }
 }

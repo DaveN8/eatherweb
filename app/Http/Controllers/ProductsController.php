@@ -85,7 +85,8 @@ class ProductsController extends Controller
     {
         //
         return view('detail', [
-            'products' => products::findorFail($id)
+            'products' => products::findorFail($id),
+            'product_ingredients' => Product_ingredient::all()
         ]);
     }
 
