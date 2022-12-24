@@ -4,43 +4,62 @@
     <div class="mx-auto max-w-7xl py-6 px-4 sm:px-6 lg:px-8">
 
         @auth
+            @if (session()->has('message '))
+                <div class="alert alert-success">
+                    {{ session()->get('message') }}
+                </div>
+            @endif
             @if (Auth::check() && Auth::user()->status == 'member')
-                <div class="grid grid-cols-3 gap-2">
+                <div class="grid grid-cols-3 gap-5">
                     @foreach ($products as $pro)
                         @if ($pro['status'] == 'hide')
                         @elseif($pro['status'] == 'show')
-                            <div class="w-full max-w-sm rounded-lg bg-white shadow-md">
+                            <div
+                                class="w-full max-w-sm rounded-lg bg-white shadow-md grid grid-cols-1 content-between place-content-between place-items-stretch">
                                 {{-- <input type="hidden" name="products_id" value="{{ $pro['id'] }}"> --}}
-                                <a href="">
+                                {{-- <div class="grid grid-cols-1 gap-1 content-between "> --}}
+                                <a href="{{ route('products.show', $pro->id) }}" class="h-full w-full">
                                     <img class="rounded-t-lg p-8" src="{{ asset('storage/' . $pro->image) }}"
                                         alt="product image" />
                                 </a>
                                 <div class="px-5 pb-5">
                                     <h5 class="text-xl font-semibold tracking-tight text-gray-900">{{ $pro['name'] }}</h5>
                                     <span><a href="{{ route('products.show', $pro->id) }}"
-                                            class="decoration-slate-700-500 font-semibold text-gray-900 underline">See
+                                            class="decoration-slate-700-500 font-semibold text-gray-400 underline">See
                                             detail
                                         </a></span>
-                                    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ $pro['description'] }}
+                                    <p class="mb-3 font-normal text-gray-500">{{ $pro['description'] }}
                                     </p>
                                     <div class="flex items-center justify-between">
-                                        <span class="text-2xl font-bold text-gray-900">{{ $pro['price'] }}</span><span
-                                            class="text-gray-900">/pcs</span>
+                                        <span class="text-2xl font-bold text-gray-900">{{ $pro['price'] }} <span
+                                                class="text-base text-gray-600">/pcs</span></span>
                                         {{-- <a href="{{ route('cart.create', $pro["id"]) }}"> --}}
                                         {{-- <a href=""> --}}
-                                            <a href="/wishlists" class="rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                                Wishlist
-                                            </a>
                                         <form action="{{ route('cart.show', $pro->id) }}" method="GET"
                                             enctype="multipart/form-data">
                                             @csrf
                                             <button type="submit"
-                                                class="rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add
+                                                class="rounded-lg bg-sky-500 px-3 py-2 text-center text-sm font-medium text-white hover:bg-sky-300 focus:outline-none focus:ring-4 focus:ring-blue-300">Add
                                                 to Cart</button>
                                         </form>
+                                        <form action="{{ route('wishlist.store') }}" method="POST"
+                                            enctype="multipart/form-data">
+                                            @csrf
+                                            <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                                            <input type="hidden" name="products_id" value="{{ $pro->id }}">
+                                            <button><svg aria-hidden="true" focusable="false" data-prefix="far" data-icon="star"
+                                                    class="w-4 text-yellow-500 focus:ring-3 focus:ring-yellow-400"
+                                                    role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                                                    <path fill="currentColor"
+                                                        d="M528.1 171.5L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6zM388.6 312.3l23.7 138.4L288 385.4l-124.3 65.3 23.7-138.4-100.6-98 139-20.2 62.2-126 62.2 126 139 20.2-100.6 98z">
+                                                    </path>
+                                                </svg></button>
+                                        </form>
+
                                         {{-- </a> --}}
                                     </div>
                                 </div>
+                                {{-- </div> --}}
                             </div>
                         @endif
                     @endforeach
@@ -50,7 +69,8 @@
                     @foreach ($products as $pro)
                         <div class="w-full max-w-sm rounded-lg bg-white shadow-md">
                             <a href="">
-                                <img class="rounded-t-lg p-8" src="{{ asset('storage/' . $pro->image) }}" alt="product image" />
+                                <img class="rounded-t-lg p-8" src="{{ asset('storage/' . $pro->image) }}"
+                                    alt="product image" />
                             </a>
                             <div class="px-5 pb-5">
                                 <h5 class="text-xl font-semibold tracking-tight text-gray-900">{{ $pro['name'] }}</h5>
@@ -94,25 +114,30 @@
         @guest
             <div class="grid grid-cols-3 gap-2">
                 @foreach ($products as $pro)
-                    <div class="w-full max-w-sm rounded-lg bg-white shadow-md">
-                        <a href="#">
-                            <img class="rounded-t-lg p-8" src="{{ asset('storage/' . $pro->image) }}" alt="product image" />
-                        </a>
-                        <div class="px-5 pb-5">
-                            <h5 class="text-xl font-semibold tracking-tight text-gray-900">{{ $pro['name'] }}</h5>
-                            <span><a href="{{ route('products.show', $pro->id) }}" class="decoration-slate-700-500 font-semibold text-gray-900 underline">See
-                                    detail
-                                </a></span>
-                            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ $pro['description'] }}</p>
-                            <div class="flex items-center justify-between">
-                                <span class="text-2xl font-bold text-gray-900">{{ $pro['price'] }}</span><span
-                                    class="text-gray-900">/pcs</span>
-                                <a href="/register"
-                                    class="rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add
-                                    to cart</a>
+                    @if ($pro['status'] == 'hide')
+                    @elseif($pro['status'] == 'show')
+                        <div class="w-full max-w-sm rounded-lg bg-white shadow-md">
+                            <a href="#">
+                                <img class="rounded-t-lg p-8" src="{{ asset('storage/' . $pro->image) }}"
+                                    alt="product image" />
+                            </a>
+                            <div class="px-5 pb-5">
+                                <h5 class="text-xl font-semibold tracking-tight text-gray-900">{{ $pro['name'] }}</h5>
+                                <span><a href="{{ route('products.show', $pro->id) }}"
+                                        class="decoration-slate-700-500 font-semibold text-gray-900 underline">See
+                                        detail
+                                    </a></span>
+                                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ $pro['description'] }}</p>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-2xl font-bold text-gray-900">{{ $pro['price'] }}</span><span
+                                        class="text-gray-900">/pcs</span>
+                                    <a href="/register"
+                                        class="rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add
+                                        to cart</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    @endif
                 @endforeach
             </div>
         @endguest

@@ -40,7 +40,7 @@
                             </x-nav-link>
                         </div>
                         <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                            <x-nav-link href="/wishlists">
+                            <x-nav-link href="{{ route('wishlist.index') }}">
                                 <p>Wishlist</p>
                             </x-nav-link>
                         </div>
@@ -57,12 +57,16 @@
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
                 @auth
-                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex" align="rigth">
-                        <x-nav-link href="{{ route('cart.create') }}">
-                            <img src="https://img.icons8.com/external-kiranshastry-solid-kiranshastry/64/null/external-shopping-cart-interface-kiranshastry-solid-kiranshastry-1.png"
-                                class="w-1/2 h-auto" />
-                        </x-nav-link>
-                    </div>
+                    @if (Auth::check() && Auth::user()->status == 'member')
+                        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex" align="rigth">
+                            <x-nav-link href="{{ route('cart.create') }}">
+
+                                <img src="https://img.icons8.com/external-kiranshastry-solid-kiranshastry/64/null/external-shopping-cart-interface-kiranshastry-solid-kiranshastry-1.png"
+                                    class="w-1/2 h-auto" />
+
+                            </x-nav-link>
+                        </div>
+                    @endif
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
                             <button
@@ -153,7 +157,7 @@
                     </x-responsive-nav-link>
                 </div>
                 <div class="pt-2 pb-3 space-y-1">
-                    <x-responsive-nav-link href="/wishlists">
+                    <x-responsive-nav-link href="{{ route('wishlist.index') }}">
                         Wishlist
                     </x-responsive-nav-link>
                 </div>
@@ -173,12 +177,14 @@
                     <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
                     <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
                 </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex" align="rigth">
-                    <x-nav-link href="{{ route('cart.create') }}">
-                        <img src="https://img.icons8.com/external-kiranshastry-solid-kiranshastry/64/null/external-shopping-cart-interface-kiranshastry-solid-kiranshastry-1.png"
-                            class="w-1/2 h-auto" />
-                    </x-nav-link>
-                </div>
+                @if (Auth::check() && Auth::user()->status == 'member')
+                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex" align="rigth">
+                        <x-nav-link href="{{ route('cart.create') }}">
+                            <img src="https://img.icons8.com/external-kiranshastry-solid-kiranshastry/64/null/external-shopping-cart-interface-kiranshastry-solid-kiranshastry-1.png"
+                                class="w-1/2 h-auto" />
+                        </x-nav-link>
+                    </div>
+                @endif
 
                 <div class="mt-3 space-y-1">
                     <x-responsive-nav-link :href="route('profile.edit')">

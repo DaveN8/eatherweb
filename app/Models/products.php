@@ -33,4 +33,18 @@ class Products extends Model
     public function keranjang(): BelongsTo{
         return $this->belongsTo(Keranjang::class);
     }
+
+    public function wishlist(): HasMany{
+        return $this->hasMany(Wishlists::class);
+    }
+
+    public function product_ingredients(): BelongsTo{
+        return $this->belongsTo(product_ingredients::class);
+    }
+
+    public function review(): HasMany{
+        return $this->hasMany(Reviews::class);
+    }
+
+
 }

@@ -15,39 +15,112 @@
         </button>
     </div>
 </div> --}}
-
-    <div class="  text-gray-500 bg-white rounded-lg shadow-xl dark:bg-white dark:text-gray-400" role="alert">
-        <div class="flex">
-            <img class="mx-4 mt-20 h-40 rounded-lg" alt="art cover" loading="lazy"
-                src='https://picsum.photos/seed/2/2000/1000' />
-            <div class="ml-3 text-sm font-normal my-11">
-                <span class="mb-2 text-sm font-extrabold text-gray-900 dark:text-black">Flavour Product</span>
-                <div id="Ingredients"class="mb-2 text-sm font-normal">Lorem ipsum dolor sit amet, consectetur adipiscing
-                    elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                    nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-                    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                    cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum..</div>
-                <div id="desc"class="mb-2 text-sm font-normal">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                    exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-                    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                    cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum..</div>
-                <div class="flex ">
-                    <a href="#"
-                        class="mr-3 my-2 inline-flex px-2.5 py-1.5 text-sm font-medium text-center text-white bg-sky-300 rounded-md hover:bg-sky-300 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-sky-500 dark:hover:bg-sky-400 dark:focus:ring-sky-300">Add
-                        To Cart</a>
-                    <button><svg aria-hidden="true" focusable="false" data-prefix="far" data-icon="star"
-                            class="w-4 text-yellow-500 focus:ring-3 focus:ring-yellow-400" role="img" xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 576 512">
-                            <path fill="currentColor"
-                                d="M528.1 171.5L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6zM388.6 312.3l23.7 138.4L288 385.4l-124.3 65.3 23.7-138.4-100.6-98 139-20.2 62.2-126 62.2 126 139 20.2-100.6 98z">
-                            </path>
-                        </svg></button>
+    @auth
+        @if (Auth::check() && Auth::user()->status == 'member')
+            <div
+                class="m-auto flex items-center justify-center w-fit px-5 text-gray-500 bg-white rounded-lg shadow-xl dark:bg-white dark:text-gray-400">
+                <div class="flex items-center justify-center">
+                    <img class="mx-4 h-40 rounded-lg" alt="art cover" loading="lazy"
+                        src='{{ asset('storage/' . $products->image) }}' />
+                    <div class="ml-3 my-11">
+                        <div class="mb-2 text-xl font-extrabold text-black">
+                            <span>{{ $products['name'] }}</span>
+                        </div>
+                        <div class="text-base text-gray-400">
+                            <span>Flavours: {{ $products->flavours->name }}</span>
+                        </div>
+                        <div class="text-base text-gray-400">
+                            <span>Category: {{ $products->kategori->name }}</span>
+                        </div>
+                        <br>
+                        <div class=" mb-5 text-3xl text-gray-700">
+                            <span>Rp. {{ $products['price'] }}</span>
+                        </div>
+                        <div id="Ingredients"class="mb-2 text-sm font-normal">{{ $products['description'] }}</div>
+                        <div class="mb-5 text-sm font-normal">Ingredients:
+                            @foreach ($product_ingredients as $ping)
+                                @if ($ping['products_id'] == $products['id'])
+                                    <span class="mb-2 text-sm text-gray-400">{{ $ping->ingredients->name }},</span>
+                                @endif
+                            @endforeach
+                        </div>
+                        <div class="flex ">
+                            <form action="{{ route('cart.show', $products->id) }}" method="GET" enctype="multipart/form-data">
+                                @csrf
+                                <button type="submit"
+                                    class="rounded-lg bg-blue-700 px-5 py-2.5 mr-3 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add
+                                    to Cart</button>
+                            </form>
+                            <form action="{{ route('wishlist.store') }}" method="POST" enctype="multipart/form-data">
+                                @csrf
+                                <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                                <input type="hidden" name="products_id" value="{{ $pro->id }}">
+                                <button><svg aria-hidden="true" focusable="false" data-prefix="far" data-icon="star"
+                                        class="w-4 text-yellow-500 focus:ring-3 focus:ring-yellow-400" role="img"
+                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                                        <path fill="currentColor"
+                                            d="M528.1 171.5L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6zM388.6 312.3l23.7 138.4L288 385.4l-124.3 65.3 23.7-138.4-100.6-98 139-20.2 62.2-126 62.2 126 139 20.2-100.6 98z">
+                                        </path>
+                                    </svg></button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
-
+        @elseif(Auth::check() && Auth::user()->status == 'admin')
+            @php
+                return redirect('admin/index');
+            @endphp
+        @endif
+    @endauth
+    @guest
+        <div class="h-screen flex items-center justify-center">
+            <div
+                class="h-fit m-auto flex items-center justify-center w-fit px-5 text-gray-500 bg-white rounded-lg shadow-xl dark:bg-white dark:text-gray-400">
+                <div class="flex items-center justify-center">
+                    <img class="mx-4 h-40 rounded-lg" alt="art cover" loading="lazy"
+                        src='{{ asset('storage/' . $products->image) }}' />
+                    <div class="ml-3 my-11">
+                        <div class="mb-2 text-xl font-extrabold text-black">
+                            <span>{{ $products['name'] }}</span>
+                        </div>
+                        <div class="text-base text-gray-400">
+                            <span>Flavours: {{ $products->flavours->name }}</span>
+                        </div>
+                        <div class="text-base text-gray-400">
+                            <span>Category: {{ $products->kategori->name }}</span>
+                        </div>
+                        <br>
+                        <div class=" mb-5 text-3xl text-gray-700">
+                            <span>Rp. {{ $products['price'] }}</span>
+                        </div>
+                        <div id="Ingredients"class="mb-2 text-sm font-normal">{{ $products['description'] }}</div>
+                        <div class="mb-5 text-sm font-normal">Ingredients:
+                            @foreach ($product_ingredients as $ping)
+                                @if ($ping['products_id'] == $products['id'])
+                                    <span class="mb-2 text-sm text-gray-400">{{ $ping->ingredients->name }},</span>
+                                @endif
+                            @endforeach
+                        </div>
+                        <div class="flex ">
+                            <a href="/register">
+                                <button type="submit"
+                                    class="rounded-lg bg-blue-700 px-5 py-2.5 mr-3 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add
+                                    to Cart</button>
+                            </a>
+                            <a href="/login" class="flex justify-center items-center focus:ring-3 focus:ring-yellow-400">
+                                <button><svg aria-hidden="true" focusable="false" data-prefix="far" data-icon="star"
+                                        class="w-4 text-yellow-500 hover:bg-yellow-400" role="img"
+                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                                        <path fill="currentColor"
+                                            d="M528.1 171.5L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6zM388.6 312.3l23.7 138.4L288 385.4l-124.3 65.3 23.7-138.4-100.6-98 139-20.2 62.2-126 62.2 126 139 20.2-100.6 98z">
+                                        </path>
+                                    </svg></button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-
-
-    </div>
+    @endguest
 @endsection
