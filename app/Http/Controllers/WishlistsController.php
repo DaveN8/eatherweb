@@ -37,6 +37,7 @@ class WishlistsController extends Controller
     public function store(StorewishlistsRequest $request)
     {
         //
+        
     }
 
     /**

@@ -20,6 +20,16 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script src="../path/to/soft-ui-dashboard-tailwind.js"></script>
+    <link rel="stylesheet" href="soft-ui-dashboard-tailwind.css" />
+    {{-- // Fonts and Icons --}}
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+    {{-- // FontAwesome Icons --}}
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    {{-- // Nucleo Icons --}}
+    <link href="./assets/css/nucleo-icons.css" rel="stylesheet" />
+    <link href="./assets/css/nucleo-svg.css" rel="stylesheet" />
+
 </head>
 
 <body class="font-sans antialiased">

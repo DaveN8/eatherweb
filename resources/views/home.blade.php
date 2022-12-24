@@ -27,6 +27,7 @@
     {{-- </div>
         </div>
     </header> --}}
+    @auth
     <div class="pt-24">
         <div class="container px-3 mx-auto flex flex-wrap flex-col md:flex-row items-center">
             <!--Left Col-->
@@ -37,17 +38,43 @@
                 <p class="leading-normal text-2xl mb-8">
                     merupakan sebuah makanan ringan yang renyah dan enak
                 </p>
-                <button
+
+                <a href="/product"
                     class="mx-auto lg:mx-0 hover:underline bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
-                    Get Started
-                </button>
+                    Start Browsing Products
+                </a>
             </div>
             <!--Right Col-->
             <div class="w-full md:w-3/5 py-6 text-center">
-                <img class="w-full md:w-4/5 z-50" src="image/logo.jpg" />
+                <img class="w-full md:w-4/5 z-50" src="image/posterhome.png" />
             </div>
         </div>
     </div>
+    @endauth
+    @guest
+        <div class="pt-24">
+            <div class="container px-3 mx-auto flex flex-wrap flex-col md:flex-row items-center">
+                <!--Left Col-->
+                <div class="flex flex-col w-full md:w-2/5 justify-center items-start text-center md:text-left">
+                    <h1 class="my-4 text-5xl font-bold leading-tight">
+                        Eather, <br>Teman untuk Nyemil.</h1>
+                    </h1>
+                    <p class="leading-normal text-2xl mb-8">
+                        merupakan sebuah makanan ringan yang renyah dan enak
+                    </p>
+
+                    <a href="/register"
+                        class="mx-auto lg:mx-0 hover:underline bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
+                        Get Started
+                    </a>
+                </div>
+                <!--Right Col-->
+                <div class="flex justify-center w-full md:w-3/5 py-6 text-center">
+                    <img class="w-full md:w-4/5 z-50 rounded rounded-lg" src="image/posterhome.png" />
+                </div>
+            </div>
+        </div>
+    @endguest
 
 
     {{-- <header class="bg-white dark:bg-gray-900">
@@ -74,6 +101,4 @@
             </div>
         </div>
     </header> --}}
-
-    
 @endsection

@@ -44,6 +44,12 @@
                                 <p>Wishlist</p>
                             </x-nav-link>
                         </div>
+                    @elseif(Auth::check() && Auth::user()->status == 'admin')
+                        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <x-nav-link href="/admins">
+                                <p>Admin Page</p>
+                            </x-nav-link>
+                        </div>
                     @endif
                 @endauth
             </div>
@@ -92,15 +98,14 @@
                         </x-slot>
                     </x-dropdown>
                 @endauth
-                @guest
-                    <x-nav-link href="/register">
-                        <button
-                            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                            Register
-                        </button>
-                    </x-nav-link>
-                @endguest
             </div>
+            @guest
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex" align="right">
+                    <x-nav-link href="/register">
+                        <p>Register</p>
+                    </x-nav-link>
+                </div>
+            @endguest
 
             <!-- Hamburger -->
             <div class="-mr-2 flex items-center sm:hidden">
@@ -152,6 +157,12 @@
                         Wishlist
                     </x-responsive-nav-link>
                 </div>
+            @elseif(Auth::check() && Auth::user()->status == 'admin')
+                <div class="pt-2 pb-3 space-y-1">
+                    <x-responsive-nav-link href="/admins">
+                        Admin Page
+                    </x-responsive-nav-link>
+                </div>
             @endif
         @endauth
 
@@ -188,9 +199,9 @@
             </div>
         @endauth
         @guest
-            <div class="pt-4 pb-1 border-t border-gray-200">
+            <div class="pt-2 pb-3 space-y-1" align="right">
                 <x-responsive-nav-link href="/register">
-                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Register</button>
+                    <p>Register</p>
                 </x-responsive-nav-link>
             </div>
         @endguest
