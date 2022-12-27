@@ -1,84 +1,72 @@
 @extends('layouts.app')
 
 @section('main_content')
-    {{-- <h3>History</h3>
-    <p>You have 3 item in your cart</p>
+    <div class="mx-auto max-w-7xl py-6 px-4 sm:px-6 lg:px-8">
+        @auth
+            @if (Auth::check() && Auth::user()->status == 'member')
+                @foreach ($history as $his)
+                    @if (Auth::user()->id == $his['user_id'])
+                        @if ($his['order_status'] == 'proses')
+                            <div
+                                class="w-full p-6 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
+                                <h1 class="text-white">Id: {{ $his['id'] }} </h1>
+                                @foreach ($cart as $car)
+                                    @if (Auth::user()->id == $car['user_id'])
+                                        @if ($car['status'] == 'hide')
+                                            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                                                {{ $car->products->name }},</h5>
+                                        @endif
+                                    @endif
+                                @endforeach
+                                <div class="flex flex-col justify-end w-fit mr-0 m-auto">
+                                    <div class="items-end">
 
-    <div class="card mb-3" style="max-width: 540px;">
-        <div class="row g-0">
-            <div class="col-md-4">
-                <img src="..." class="img-fluid rounded-start" alt="...">
-            </div>
-            <div class="col-md-8">
-                <div class="card-body">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col">
-                                <h5 class="card-title">Card title</h5>
-                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                            </div>
-                            <div class="col">
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col">
-                                            <p>Rp. 15.000</p>
-                                        </div>
+                                        <h1 class="text-white text-left">
+                                            Total Harga: Rp. {{ $his['total_pembayaran'] }}
+                                        </h1>
                                     </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <button class="btn btn-primary" type="button">Button</button>
-                                        </div>
+                                    <div class="items-end">
+                                        {{-- <form action="{{ route('histori.show', $his->id ) }}" method="POST" enctype="multipart/form-data"> --}}
+                                        <a href="{{ route('histori.show', $his->id) }}"
+                                            class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                            Update Bukti Transfer
+                                        </a>
+                                        {{-- </form> --}}
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
+                        @elseif($his['order_status'] == 'sudah')
+                        <div
+                        class="w-full p-6 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
+                        <h1 class="text-white">Id: {{ $his['id'] }} </h1>
+                        @foreach ($cart as $car)
+                            @if (Auth::user()->id == $car['user_id'])
+                                @if ($car['status'] == 'hide')
+                                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                                        {{ $car->products->name }},</h5>
+                                @endif
+                            @endif
+                        @endforeach
+                        <div class="flex flex-col justify-end w-fit mr-0 m-auto">
+                            <div class="items-end">
 
-                </div>
-            </div>
-        </div>
-    </div> --}}
-
-    <div class="mx-auto max-w-7xl py-6 px-4 sm:px-6 lg:px-8">
-
-        @auth
-            @if (Auth::check() && Auth::user()->status == 'member')
-                <div class="grid grid-cols-3 gap-2">
-                    {{-- @foreach ($histori as $his) --}}
-                        {{-- @if ($pro['status'] == 'hide')
-                        @elseif($pro['status'] == 'show') --}}
-                            <div class="w-full max-w-sm rounded-lg bg-white shadow-md">
-                                {{-- <form action="{{ route() }}" method="GET" enctype="multipart/form-data"> --}}
-                                    {{-- @csrf --}}
-                                    {{-- <input type="hidden" name="products_id" value="{{ $pro['id'] }}"> --}}
-                                    <a href="">
-                                        <img class="rounded-t-lg p-8" src=""
-                                            alt="Bukti Transfer" />
-                                    </a>
-                                    <div class="px-5 pb-5">
-                                        <h5 class="text-xl font-semibold tracking-tight text-gray-900"></h5>
-                                        <span><a href=""
-                                                class="decoration-slate-700-500 font-semibold text-gray-900 underline">See
-                                                detail
-                                            </a></span>
-                                        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                                        </p>
-                                        <div class="flex items-center justify-between">
-                                            <span class="text-2xl font-bold text-gray-900"></span><span
-                                                class="text-gray-900">/pcs</span>
-                                            {{-- <a href="{{ route('cart.create', $pro["id"]) }}"> --}}
-                                            {{-- <a href=""> --}}
-                                            <button type="submit"
-                                                class="rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add
-                                                to Cart</button>
-                                            {{-- </a> --}}
-                                        </div>
-                                    </div>
+                                <h1 class="text-white text-left">
+                                    Total Harga: Rp. {{ $his['total_pembayaran'] }}
+                                </h1>
+                            </div>
+                            <div class="items-end">
+                                {{-- <form action="{{ route('histori.show', $his->id ) }}" method="POST" enctype="multipart/form-data"> --}}
+                                <a href="{{ route('review.index') }}"
+                                    class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                    Ulas
+                                </a>
                                 {{-- </form> --}}
                             </div>
-                        {{-- @endif --}}
-                    {{-- @endforeach --}}
-                </div>
+                        </div>
+                    </div>
+                        @endif
+                    @endif
+                @endforeach
             @elseif(Auth::check() && Auth::user()->status == 'admin')
                 <h1>YOU AREN'T MEMBER</h1>
             @endif
@@ -86,29 +74,6 @@
 
 
         @guest
-            {{-- <div class="grid grid-cols-3 gap-2">
-                @foreach ($products as $pro)
-                    <div class="w-full max-w-sm rounded-lg bg-white shadow-md">
-                        <a href="#">
-                            <img class="rounded-t-lg p-8" src="{{ asset('storage/' . $pro->image) }}" alt="product image" />
-                        </a>
-                        <div class="px-5 pb-5">
-                            <h5 class="text-xl font-semibold tracking-tight text-gray-900">{{ $pro['name'] }}</h5>
-                            <span><a href="" class="decoration-slate-700-500 font-semibold text-gray-900 underline">See
-                                    detail
-                                </a></span>
-                            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ $pro['description'] }}</p>
-                            <div class="flex items-center justify-between">
-                                <span class="text-2xl font-bold text-gray-900">{{ $pro['price'] }}</span><span
-                                    class="text-gray-900">/pcs</span>
-                                <a href="/register"
-                                    class="rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add
-                                    to cart</a>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-            </div> --}}
         @endguest
     </div>
 @endsection

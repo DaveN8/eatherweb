@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Alamat extends Model
 {
@@ -17,7 +18,12 @@ class Alamat extends Model
         "kecamatan",
         "kota",
         "diskripsi_alamat",
-        "kode_pos"
+        "kode_pos",
+        "user_id"
     ];
+
+    // public function user(): HasMany{
+    //     return $this->hasMany(User::class);
+    // }
 
 }

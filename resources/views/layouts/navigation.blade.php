@@ -34,22 +34,27 @@
                 </div>
                 @auth
                     @if (Auth::check() && Auth::user()->status == 'member')
-                        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                            <x-nav-link href="/history">
+                        {{-- <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <x-nav-link href="{{ route('histori.index') }}">
                                 <p>History</p>
                             </x-nav-link>
-                        </div>
+                        </div> --}}
                         <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                             <x-nav-link href="{{ route('wishlist.index') }}">
                                 <p>Wishlist</p>
                             </x-nav-link>
                         </div>
                     @elseif(Auth::check() && Auth::user()->status == 'admin')
-                        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                            <x-nav-link href="/admins">
-                                <p>Admin Page</p>
-                            </x-nav-link>
-                        </div>
+                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                        <x-nav-link href="/admins">
+                            <p>Users</p>
+                        </x-nav-link>
+                    </div>
+                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                        <x-nav-link href="/admins">
+                            <p>Reviews</p>
+                        </x-nav-link>
+                    </div>
                     @endif
                 @endauth
             </div>
@@ -88,12 +93,20 @@
                             <x-dropdown-link :href="route('profile.edit')">
                                 {{ __('Profile') }}
                             </x-dropdown-link>
+                            @if (Auth::check() && Auth::user()->status == 'member')
+                                <x-dropdown-link :href="route('alamat.index')">
+                                    {{ __('Alamat') }}
+                                </x-dropdown-link>
+                                <x-dropdown-link :href="route('histori.index')">
+                                    {{ __('Histori') }}
+                                </x-dropdown-link>
+                            @endif
 
                             <!-- Authentication -->
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
 
-                                <x-dropdown-link :href="route('logout')"
+                                <x-dropdown-link class="border-t-2" :href="route('logout')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                                     {{ __('Log Out') }}
@@ -151,11 +164,11 @@
         </div>
         @auth
             @if (Auth::check() && Auth::user()->status == 'member')
-                <div class="pt-2 pb-3 space-y-1">
-                    <x-responsive-nav-link href="/history">
+                {{-- <div class="pt-2 pb-3 space-y-1">
+                    <x-responsive-nav-link href="{{ route('histori.index') }}">
                         Histori
                     </x-responsive-nav-link>
-                </div>
+                </div> --}}
                 <div class="pt-2 pb-3 space-y-1">
                     <x-responsive-nav-link href="{{ route('wishlist.index') }}">
                         Wishlist
@@ -164,7 +177,7 @@
             @elseif(Auth::check() && Auth::user()->status == 'admin')
                 <div class="pt-2 pb-3 space-y-1">
                     <x-responsive-nav-link href="/admins">
-                        Admin Page
+                        Users
                     </x-responsive-nav-link>
                 </div>
             @endif
@@ -190,12 +203,20 @@
                     <x-responsive-nav-link :href="route('profile.edit')">
                         {{ __('Profile') }}
                     </x-responsive-nav-link>
+                    @if (Auth::check() && Auth::user()->status == 'member')
+                        <x-responsive-nav-link :href="route('alamat.index')">
+                            {{ __('Alamat') }}
+                        </x-responsive-nav-link>
+                        <x-responsive-nav-link :href="route('histori.index')">
+                            {{ __('Histori') }}
+                        </x-responsive-nav-link>
+                    @endif
 
                     <!-- Authentication -->
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
 
-                        <x-responsive-nav-link :href="route('logout')"
+                        <x-responsive-nav-link class="border-t-2" :href="route('logout')"
                             onclick="event.preventDefault();
                                         this.closest('form').submit();">
                             {{ __('Log Out') }}

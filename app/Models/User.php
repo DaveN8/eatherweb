@@ -47,4 +47,8 @@ class User extends Authenticatable
     public function keranjang(): BelongsTo{
         return $this->belongsTo(Keranjang::class);
     }
+    
+    // public function alamat(): BelongsTo{
+    //     return $this->belongsTo(Alamat::class);
+    // }
 }
