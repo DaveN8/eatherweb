@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\flavours;
 use App\Http\Requests\StoreflavoursRequest;
 use App\Http\Requests\UpdateflavoursRequest;
+use App\Models\User;
 
 class FlavoursController extends Controller
 {

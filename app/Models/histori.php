@@ -14,12 +14,13 @@ class Histori extends Model
         "status_payment",
         "order_status",
         "bukti_trf",
-        "keranjang_id"
+        "user_id",
+        "alamat_id"
     ];
 
-    public function keranjang(): BelongsTo{
-        return $this->belongsTo(keranjang::class);
+    public function user(): BelongsTo{
+        return $this->belongsTo(User::class);
     } 
-
+    
 
 }

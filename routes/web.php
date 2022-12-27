@@ -45,9 +45,9 @@ Route::get('/details', function () {
 //Keranjang
 
 //Histori
-Route::get('/history', function () {
-    return view('histori');
-});
+// Route::get('/history', function () {
+//     return view('histori');
+// });
 
 Route::get('/payment', function () {
     return view('payment');
@@ -64,8 +64,17 @@ Route::get('/', function () {
 });
 
 Route::get('/admins', function () {
-    return view('admin/index');
+    return view('admin/index',[
+        'pentol' => User::all()
+    ]);
 })->middleware('admin');
+
+Route::get('/reviews', function () {
+    return view('admin/review',[
+        'pentol' => Reviews::all()
+    ]);
+})->middleware('admin');
+
 
 
 Route::get('/product', function () {

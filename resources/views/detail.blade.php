@@ -122,5 +122,87 @@
                 </div>
             </div>
         </div>
+
+
+        {{-- <div class="w-full p-4 drop-shadow-lg bg-white border rounded-lg shadow-md sm:p-8 ">
+            <div class="text-center mb-4">
+                <h5 class="text-xl font-bold leading-none text-gray-900 ">Review</h5>
+            </div>
+            <div class="flow-root">
+                <ul role="list" class="divide-y  divide-gray-700">
+                    <li class="py-3 sm:py-4">
+                        <div class="flex items-center space-x-4">
+
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-medium text-gray-900 truncate ">
+                                    Neil Sims
+                                </p>
+                                <p class="text-sm text-gray-500 truncate ">
+                                    Makanannya enak aku suka
+                                </p>
+                            </div>
+
+                        </div>
+                    </li>
+                    <li class="py-3 sm:py-4">
+                        <div class="flex items-center space-x-4">
+
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-medium text-gray-900 truncate ">
+                                    Bonnie Green
+                                </p>
+                                <p class="text-sm text-gray-500 truncate ">
+                                    AAAAAA JADI PENGEN BELI LAGI
+                                </p>
+                            </div>
+
+                        </div>
+                    </li>
+                    <li class="py-3 sm:py-4">
+                        <div class="flex items-center space-x-4">
+
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-medium text-gray-900 truncate ">
+                                    Michael Gough
+                                </p>
+                                <p class="text-sm text-gray-500 truncate ">
+                                    Hmmmmm boleh juga ni makanan
+                                </p>
+                            </div>
+
+                        </div>
+                    </li>
+                    <li class="py-3 sm:py-4">
+                        <div class="flex items-center space-x-4">
+
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-medium text-gray-900 truncate ">
+                                    Lana Byrd
+                                </p>
+                                <p class="text-sm text-gray-500 truncate ">
+                                    pokemon aku suka
+                                </p>
+                            </div>
+
+                        </div>
+                    </li>
+                    <li class="pt-3 pb-0 sm:pt-4">
+                        <div class="flex items-center space-x-4">
+
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-medium text-gray-900 truncate ">
+                                    Thomes Lean
+                                </p>
+                                <p class="text-sm text-gray-500 truncate ">
+                                    bisa di adu bosss
+                                </p>
+                            </div>
+
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div> --}}
+
     @endguest
 @endsection

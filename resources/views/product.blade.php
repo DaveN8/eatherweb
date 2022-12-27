@@ -65,26 +65,6 @@
                     @endforeach
                 </div>
             @elseif(Auth::check() && Auth::user()->status == 'admin')
-                <div class="grid grid-cols-3 gap-2">
-                    @foreach ($products as $pro)
-                        <div class="w-full max-w-sm rounded-lg bg-white shadow-md">
-                            <a href="">
-                                <img class="rounded-t-lg p-8" src="{{ asset('storage/' . $pro->image) }}"
-                                    alt="product image" />
-                            </a>
-                            <div class="px-5 pb-5">
-                                <h5 class="text-xl font-semibold tracking-tight text-gray-900">{{ $pro['name'] }}</h5>
-                                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ $pro['description'] }}</p>
-                                <div class="flex items-center justify-between">
-                                    <span class="text-2xl font-bold text-gray-900">{{ $pro['price'] }}</span><span
-                                        class="text-gray-900">/pcs</span>
-                                    <a href="{{ route('products.edit', $pro->id) }}"
-                                        class="rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Edit</a>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
                 <div class="grid grid-cols-4 gap-3 my-3">
                     <div class="w-fit rounded-lg shadow-md mx-auto">
                         <a href=" {{ route('products.create') }} "><button
@@ -106,6 +86,26 @@
                                 class="rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add
                                 Flavours</button></a>
                     </div>
+                </div>
+                <div class="grid grid-cols-3 gap-2">
+                    @foreach ($products as $pro)
+                        <div class="w-full max-w-sm rounded-lg bg-white shadow-md">
+                            <a href="">
+                                <img class="rounded-t-lg p-8" src="{{ asset('storage/' . $pro->image) }}"
+                                    alt="product image" />
+                            </a>
+                            <div class="px-5 pb-5">
+                                <h5 class="text-xl font-semibold tracking-tight text-gray-900">{{ $pro['name'] }}</h5>
+                                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ $pro['description'] }}</p>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-2xl font-bold text-gray-900">{{ $pro['price'] }}</span><span
+                                        class="text-gray-900">/pcs</span>
+                                    <a href="{{ route('products.edit', $pro->id) }}"
+                                        class="rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Edit</a>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
             @endif
         @endauth

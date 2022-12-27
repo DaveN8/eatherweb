@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\reviews;
 use App\Http\Requests\StorereviewsRequest;
 use App\Http\Requests\UpdatereviewsRequest;
+use App\Models\Histori;
+use App\Models\Keranjang;
+use App\Models\Products;
 
 class ReviewsController extends Controller
 {
@@ -16,6 +19,10 @@ class ReviewsController extends Controller
     public function index()
     {
         //
+        return view('review',[
+            'history' =>Histori::all(),
+            'cart' => Keranjang::all()
+        ]);
     }
 
     /**
@@ -23,9 +30,13 @@ class ReviewsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
         //
+        return view('create/cr_review',[
+            'products_id' => $id,
+            'cart' => Keranjang::all()
+        ]);
     }
 
     /**
@@ -37,6 +48,17 @@ class ReviewsController extends Controller
     public function store(StorereviewsRequest $request)
     {
         //
+        $this->validate($request, [
+            'review' => 'required',
+        ]);
+
+        reviews::create([
+            'comment' => $request->review,
+            'user_id' => $request->user_id,
+            'products_id' => $request->products_id
+        ]);
+
+        return redirect(route('review.index'));
     }
 
     /**
@@ -59,6 +81,7 @@ class ReviewsController extends Controller
     public function edit(reviews $reviews)
     {
         //
+
     }
 
     /**

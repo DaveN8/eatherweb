@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\keranjang;
 use App\Http\Requests\StorekeranjangRequest;
 use App\Http\Requests\UpdatekeranjangRequest;
+use App\Models\Alamat;
 use App\Models\Products;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -37,7 +38,8 @@ class KeranjangController extends Controller
 
         return view('keranjang', [
             'cart' => keranjang::all(),
-            'products' => Products::all()
+            'products' => Products::all(),
+            'address' => Alamat::all()
         ]);
     }
 
@@ -57,15 +59,31 @@ class KeranjangController extends Controller
         // $product_id = ;
         if ($request->products_id) {
             $cart = keranjang::all();
-            // if ($cart instanceof NotFoundHttpException) {
-            //     keranjang::create([
-            //         'jumlah_product' => $request->jumlah_product,
-            //         'catatan' => $request->catatan,
-            //         'user_id' => $request->user_id,
-            //         'products_id' => $request->products_id
-            //     ]);
-            // }else{
             if (!isset($cart)) {
+                keranjang::create([
+                    'jumlah_product' => $request->jumlah_product,
+                    'catatan' => $request->catatan,
+                    'user_id' => $request->user_id,
+                    'products_id' => $request->products_id
+                ]);
+            } elseif (isset($cart)) {
+                // foreach ($cart as $car) {
+                //     if ($request->products_id == $car['id'] && $car['status'] == "hide") {
+                //         keranjang::create([
+                //             'jumlah_product' => $request->jumlah_product,
+                //             'catatan' => $request->catatan,
+                //             'user_id' => $request->user_id,
+                //             'products_id' => $request->products_id
+                //         ]);
+                //     } elseif ($request->products_id == $car['id'] && $car['status'] == "show") {
+                //         return redirect(route('/product'))->with('message', "Product has been added");
+                //     }
+                // }
+                foreach ($cart as $car) {
+                    if ($request->products_id == $car['products_id']) {
+                        return redirect('/product');
+                    }
+                }
                 keranjang::create([
                     'jumlah_product' => $request->jumlah_product,
                     'catatan' => $request->catatan,
@@ -74,44 +92,20 @@ class KeranjangController extends Controller
                 ]);
             } else {
                 foreach ($cart as $car) {
-                    if ($request->products_id == $car['id'] && $car['status'] == "hide") {
+                    if ($request->products_id == $car['products_id'] && $car['status'] == "hide") {
                         keranjang::create([
                             'jumlah_product' => $request->jumlah_product,
                             'catatan' => $request->catatan,
                             'user_id' => $request->user_id,
                             'products_id' => $request->products_id
                         ]);
-                    } elseif ($request->products_id == $car['id'] && $car['status'] == "show") {
+                    } elseif ($request->products_id == $car['products_id'] && $car['status'] == "show") {
                         return redirect(route('/product'))->with('message', "Product has been added");
                     }
                 }
             }
         }
         return redirect('/product');
-
-
-
-
-        // foreach($cart as $car){
-        //     if($request->products_id == $car['id'] && $car['status'] == 'hide') {
-        //         keranjang::create([
-        //             'jumlah_product' => $request->jumlah_product,
-        //             'catatan' => $request->catatan,
-        //             'user_id' => $request->user_id,
-        //             'products_id' => $request->products_id
-        //         ]);        
-        //     } elseif ($request->products_id == $car['id'] && $car['status'] == 'show') {
-        //         echo '<script>alert("Products has been added")</script>';
-        //     } elseif ($request->products_id) {
-
-        //     }
-        // }
-
-        // $lastid = DB::getPdo()->lastInsertId();
-        // $id = DB::table('products');
-        // $lastid;
-
-
     }
 
     /**
@@ -138,9 +132,20 @@ class KeranjangController extends Controller
     public function edit($id)
     {
         //
-        return view('keranjang', [
-            'cart' => keranjang::findorFail($id),
-        ]);
+        $cart = keranjang::all();
+        if ($cart['status'] == 'show') {
+            $final = 0;
+            foreach ($cart as $car) {
+                if ($car['status'] == 'show') {
+                    $final = $final + ($car['jumlah_product'] * $car->products->price);
+                }
+            }
+            $final2 = $final;
+            $cart->update([
+                'status' => 'hide'
+            ]);
+        }
+        return redirect(route('histori.show', $final2));
     }
 
     /**
@@ -156,48 +161,64 @@ class KeranjangController extends Controller
 
         $cart = keranjang::findorFail($id);
 
-        if ($request->status) {
-            if ($request->file('image')) {
-                unlink('storage/' . $cart->image);
+        if ($request->catatan) {
+            $cart->update([
+                'catatan' => $request->catatan
+            ]);
+        } elseif ($request->kurang) {
+            if ($cart['jumlah_product'] > 0) {
+                $final = $cart['jumlah_product'] - $request->kurang;
                 $cart->update([
-                    'name' => $request->name,
-                    'image' => $request->file('image')->store('images', 'public'),
-                    'stock' => $request->stock,
-                    'price' => $request->price,
-                    'description' => $request->description,
-                    'flavours_id' => $request->flavour,
-                    'kategori_id' => $request->category,
-                    'status' => $request->status
+                    'jumlah_product' => $final,
                 ]);
-            } else {
-                $cart->update([
-                    'name' => $request->name,
-                    'stock' => $request->stock,
-                    'price' => $request->price,
-                    'description' => $request->description,
-                    'flavours_id' => $request->flavour,
-                    'kategori_id' => $request->category,
-                    'status' => $request->status
-                ]);
+            } elseif ($cart['jumlah_product'] == 0) {
+                return redirect(route('cart.destroy', $cart->id));
             }
-        } else {
-            if ($request->catatan) {
-                # code...
+        } elseif ($request->tambah) {
+            if ($cart['jumlah_products'] == $cart->products->stock) {
+            } elseif ($cart['jumlah_products'] < $cart->products->stock) {
+                $final = $cart['jumlah_product'] + $request->tambah;
                 $cart->update([
-                    'jumlah_product' => $request->jumlah_product,
-                    'catatan' => $request->catatan,
-                ]);
-            } else {
-                # code...
-                $cart->update([
-                    'jumlah_product' => $request->jumlah_product,
+                    'jumlah_product' => $final,
                 ]);
             }
         }
-
+        // elseif ($request->checkout) {
+        //     // $car = keranjang::all();
+        //     // if ($cart['status'] == 'show') {
+        //     //     $final = 0;
+        //     //     foreach ($car as $ca) {
+        //     //         if ($car['status'] == 'show') {
+        //     //             $final = $final + ($ca['jumlah_product'] * $ca->products->price);
+        //     //         }
+        //     //     }
+        //     //     $final2 = $final;
+        //     //     $cart->update([
+        //     //         'status' => 'hide'
+        //     //     ]);
+        //     // }
+        //     // return redirect(route('histori.show', $final2));
+        // }
 
 
         return redirect(route('cart.create'));
+
+        // if($request->checkout){
+        //     $car = keranjang::all();
+        //     if($cart['status'] == 'show'){
+        //         $final = 0;
+        //         foreach($car as $ca){
+        //             if($car['status'] == 'show'){
+        //             $final = $final + ($ca['jumlah_product']*$ca->products->price);
+        //         }
+        //     }
+        //     $final2 = $final;
+        //         $cart->update([
+        //             'status' => 'hide'
+        //         ]);
+        //     }
+        //     return redirect(route('histori.show', $final2));
+        // }
     }
 
     /**

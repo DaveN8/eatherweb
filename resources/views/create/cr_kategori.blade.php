@@ -55,6 +55,36 @@
                     </div>
                 </section>
             </form>
+
+            <div class="overflow-x-auto relative rounded-lg">
+                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-gray-900 uppercase dark:text-gray-400">
+                        <tr>
+                            <th scope="col" class="py-3 px-6">
+                                Id
+                            </th>
+                            <th scope="col" class="py-3 px-6">
+                                Name
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($category as $cat)
+                            @if ($cat['status'] == 'member')
+                                <tr class="bg-white dark:bg-gray-800">
+                                    <th scope="row"
+                                        class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        {{ $cat['id'] }}
+                                    </th>
+                                    <td class="py-4 px-6">
+                                        {{ $cat['name'] }}
+                                    </td>
+                                </tr>
+                            @endif
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         @elseif(Auth::check() && Auth::user()->status == 'member')
             <h1>YOU DON'T HAVE ACCESS</h1>
         @endif

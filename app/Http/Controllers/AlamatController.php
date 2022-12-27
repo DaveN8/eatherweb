@@ -6,6 +6,7 @@ use App\Models\alamat;
 use App\Http\Requests\StorealamatRequest;
 use App\Http\Requests\UpdatealamatRequest;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class AlamatController extends Controller
 {
@@ -17,6 +18,9 @@ class AlamatController extends Controller
     public function index()
     {
         //
+        return view('alamat', [
+            'address' => alamat::all()
+        ]);
     }
 
     /**
@@ -27,9 +31,9 @@ class AlamatController extends Controller
     public function create()
     {
         //
-        return view('/create/cr_alamat',[
+        return view('create/cr_alamat', [
             'pagetitle' => 'Create alamat',
-            'user' => ""
+
         ]);
     }
 
@@ -42,6 +46,41 @@ class AlamatController extends Controller
     public function store(StorealamatRequest $request)
     {
         //
+        $this->validate($request, [
+            'label' => 'required',
+            'penerima' => 'required',
+            'phone' => 'required',
+            'alamat' => 'required',
+            'kecamatan' => 'required',
+            'kota' => 'required',
+            'pos' => 'required'
+        ]);
+
+        if ($request->deskripsi_alamat) {
+            alamat::create([
+                'label' => $request->label,
+                'penerima' => $request->penerima,
+                'no_hp' => $request->phone,
+                'alamat_lengkap' => $request->alamat,
+                'kecamatan' => $request->kecamatan,
+                'kota' => $request->kota,
+                'deskripsi_alamat' => $request->deskripsi_alamat,
+                'kode_pos' => $request->pos,
+                'user_id' => $request->user_id
+            ]);
+        } else {
+            alamat::create([
+                'label' => $request->label,
+                'penerima' => $request->penerima,
+                'no_hp' => $request->phone,
+                'alamat_lengkap' => $request->alamat,
+                'kecamatan' => $request->kecamatan,
+                'kota' => $request->kota,
+                'kode_pos' => $request->pos,
+                'user_id' => $request->user_id
+            ]);
+        }
+        return redirect(route('alamat.index'));
     }
 
     /**
@@ -61,9 +100,12 @@ class AlamatController extends Controller
      * @param  \App\Models\alamat  $alamat
      * @return \Illuminate\Http\Response
      */
-    public function edit(alamat $alamat)
+    public function edit($id)
     {
         //
+        return view('update/up_alamat', [
+            'address' => alamat::findorFail($id)
+        ]);
     }
 
     /**
@@ -73,9 +115,21 @@ class AlamatController extends Controller
      * @param  \App\Models\alamat  $alamat
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdatealamatRequest $request, alamat $alamat)
+    public function update(UpdatealamatRequest $request, $id)
     {
         //
+        $address = alamat::findorFail($id);
+        $address->update([
+            'label' => $request->label,
+            'penerima' => $request->penerima,
+            'no_hp' => $request->phone,
+            'alamat_lengkap' => $request->alamat,
+            'kecamatan' => $request->kecamatan,
+            'kota' => $request->kota,
+            'deskripsi_alamat' => $request->deskripsi_alamat,
+            'kode_pos' => $request->pos
+        ]);
+        return redirect(route('alamat.index'));
     }
 
     /**
@@ -84,8 +138,11 @@ class AlamatController extends Controller
      * @param  \App\Models\alamat  $alamat
      * @return \Illuminate\Http\Response
      */
-    public function destroy(alamat $alamat)
+    public function destroy($id)
     {
         //
+        $address = alamat::findorFail($id);
+        $address->delete();
+        return redirect(route('alamat.index'));
     }
 }

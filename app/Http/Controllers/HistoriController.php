@@ -17,6 +17,11 @@ class HistoriController extends Controller
     public function index()
     {
         //
+        return view('histori', [
+            'history' => histori::all(),
+            'cart' => Keranjang::all()
+            // 'products' => Products::all()
+        ]);
     }
 
     /**
@@ -26,10 +31,7 @@ class HistoriController extends Controller
      */
     public function create()
     {
-        return view('histori', [
-            'history' => histori::all()
-            // 'products' => Products::all()
-        ]);
+        //
     }
 
     /**
@@ -41,6 +43,20 @@ class HistoriController extends Controller
     public function store(StorehistoriRequest $request)
     {
         //
+        $this->validate($request, [
+            'total_pembayaran' => 'required',
+            'user_id' => 'required',
+            'alamat_id' => 'required'
+        ]);
+
+        histori::create([
+            'total_pembayaran' => $request->total_pembayaran,
+            'user_id' => $request->user_id,
+            'alamat_id' => $request->alamat_id
+        ]);
+
+
+        return redirect(route('histori.edit'));
     }
 
     /**
@@ -51,11 +67,8 @@ class HistoriController extends Controller
      */
     public function show($id)
     {
-        //
-
-        return view('payment',[
-            'cart_id' => $id,
-            'cart' => Keranjang::all()
+        return view('payment', [
+            'historis' => histori::findorFail($id),
         ]);
     }
 
@@ -68,6 +81,9 @@ class HistoriController extends Controller
     public function edit(histori $histori)
     {
         //
+        return view('payment', [
+            'historis' => histori::latest()->first(),
+        ]);
     }
 
     /**
@@ -77,9 +93,26 @@ class HistoriController extends Controller
      * @param  \App\Models\histori  $histori
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdatehistoriRequest $request, histori $histori)
+    public function update(UpdatehistoriRequest $request, $id)
     {
         //
+        $his = histori::findorFail($id);
+
+        if ($request->file('bukti_trf')) {
+            $his->update([
+                'bukti_trf' => $request->file('bukti_trf')->store('bukti_trfs', 'public')
+            ]);
+        }
+
+        $cart = Keranjang::all();
+        foreach($cart as $car){
+            if($car->where('user_id', $request->user_id)->where('status', 'show')){
+                $car->status = 'hide';
+                $car->save();
+            }
+        }
+
+        return redirect(route('histori.index'));
     }
 
     /**
